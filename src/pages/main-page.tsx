@@ -1,11 +1,16 @@
-import Card from '@/components/card/card';
+import { useState } from 'react';
+import type { TOffer, TOfferArray } from '@/entities/Offers/types';
+import OffersCardList from '@/entities/Offers/components/offers-card-list/offers-card-list';
 
 type MainPageProps = {
-  countOffer: number;
+  offers: TOfferArray;
 };
 
-function MainPage({ countOffer }: MainPageProps) {
-  const mockArray = new Array<number>(countOffer).fill(1).map((el, idx) => el + idx);
+function MainPage({ offers }: MainPageProps) {
+  const [, setActiveCardId] = useState<TOffer['id']>('');
+
+  const handleMouseEnter = (id: TOffer['id']) => setActiveCardId(id);
+  const handleMouseLeave = () => setActiveCardId('');
 
   return (
     <>
@@ -70,11 +75,11 @@ function MainPage({ countOffer }: MainPageProps) {
               </ul>
             </form>
 
-            <div className="cities__places-list places__list tabs__content">
-              {mockArray.map((idx) => (
-                <Card key={idx} />
-              ))}
-            </div>
+            <OffersCardList
+              offers={offers}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            />
           </section>
 
           <div className="cities__right-section">
