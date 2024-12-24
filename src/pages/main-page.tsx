@@ -83,6 +83,8 @@ function MainPage({ offers }: MainPageProps) {
 
             <OffersCardList
               offers={offers}
+              classPrefix="cities"
+              className="tabs__content"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             />

@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+
 import type { TOffer } from '@/entities/Offers/types';
-import { MAX_RATING, MIN_RATING } from '@/shared/constants/rating';
+
+import useRating from '@/shared/hooks/use-rating';
 
 type OffersCardOfferProps = {
   offer: TOffer;
@@ -16,6 +18,8 @@ function OffersCard({
   onMouseEnter,
   onMouseLeave,
 }: OffersCardOfferProps) {
+  const { ratingWidthValue } = useRating(offer.rating);
+
   const offerDetailRoute = `offer/${offer.id}`;
 
   const cardClassName = classNames('place-card', {
@@ -37,18 +41,6 @@ function OffersCard({
   const favoriteButtonLabel = offer.isFavorite
     ? 'In bookmarks'
     : 'To bookmarks';
-
-  const normalizeRating = () => {
-    if (offer.rating > MAX_RATING) {
-      return MAX_RATING;
-    } else if (offer.rating < MIN_RATING) {
-      return MIN_RATING;
-    } else {
-      return offer.rating;
-    }
-  };
-
-  const ratingWidthValue = `${normalizeRating() * 20}%`;
 
   return (
     <article

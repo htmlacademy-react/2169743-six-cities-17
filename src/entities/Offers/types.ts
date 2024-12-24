@@ -1,5 +1,3 @@
-import type { TCity } from '@/shared/constants/cities';
-
 type TOfferType = 'apartment' | 'room';
 
 type TLocation = {
@@ -14,7 +12,7 @@ export type TOffer = {
   type: TOfferType;
   price: number;
   city: {
-    name: TCity;
+    name: string;
     location: TLocation;
   };
   location: TLocation;
