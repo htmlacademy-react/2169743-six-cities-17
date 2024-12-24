@@ -1,6 +1,12 @@
 import { useState } from 'react';
+
 import type { TOffer, TOfferArray } from '@/entities/Offers/types';
 import OffersCardList from '@/entities/Offers/components/offers-card-list/offers-card-list';
+
+import Map from '@/shared/components/map/map';
+
+import { CITY } from '@/mocks/city';
+import { POINTS } from '@/mocks/points';
 
 type MainPageProps = {
   offers: TOfferArray;
@@ -83,7 +89,9 @@ function MainPage({ offers }: MainPageProps) {
           </section>
 
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <section className="cities__map map" style={{ backgroundImage: 'initial' }}>
+              <Map city={CITY} points={POINTS} selectedPoint={undefined} />
+            </section>
           </div>
         </div>
       </div>

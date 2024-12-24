@@ -14,6 +14,8 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
+    'comma-dangle': ['error', 'always-multiline'],
+    'object-curly-spacing': ['error', 'always'],
   },
   overrides: [
     {
