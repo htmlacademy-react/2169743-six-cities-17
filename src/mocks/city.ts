@@ -1,4 +1,4 @@
-import type { City } from '@/shared/types/map';
+import type { City } from '@/widgets/map/types';
 
 export const CITY: City = {
   title: 'Амстердам',

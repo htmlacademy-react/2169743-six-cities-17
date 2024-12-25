@@ -3,7 +3,7 @@ import { useState } from 'react';
 import type { TOffer, TOfferArray } from '@/entities/Offers/types';
 import OffersCardList from '@/entities/Offers/components/offers-card-list/offers-card-list';
 
-import Map from '@/shared/components/map/map';
+import Map from '@/widgets/map/map';
 
 import { CITY } from '@/mocks/city';
 import { POINTS } from '@/mocks/points';
