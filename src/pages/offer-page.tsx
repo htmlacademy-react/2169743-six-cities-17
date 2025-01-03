@@ -4,7 +4,7 @@ import CommentsList from '@/entities/Comments/components/comments-list/comments-
 import OffersCardList from '@/entities/Offers/components/offers-card-list/offers-card-list';
 
 import Map from '@/widgets/map/map';
-import mapPointMapper from '@/widgets/map/utils/map-point-mapper';
+import { mapPointMapper } from '@/widgets/map/utils/map-point-mapper';
 
 import { reviews } from '@/mocks/reviews';
 import { CITY } from '@/mocks/city';
