@@ -18,7 +18,7 @@ function OffersCardList({
   onMouseLeave,
 }: OffersCardListProps) {
   const cardListeners = (offer: TOffer) => {
-    const listeners: Omit<OffersCardListProps, 'offers'> = {};
+    const listeners: Pick<OffersCardListProps, 'onMouseEnter' | 'onMouseLeave'> = {};
 
     if (onMouseEnter !== undefined) {
       listeners.onMouseEnter = () => onMouseEnter(offer.id);

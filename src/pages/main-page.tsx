@@ -1,22 +1,30 @@
 import { useState } from 'react';
 
-import type { TOffer, TOfferArray } from '@/entities/Offers/types';
+import { setCity } from '@/store/action';
+
+import type { TOffer } from '@/entities/Offers/types';
 import OffersCardList from '@/entities/Offers/components/offers-card-list/offers-card-list';
+import useFiteredOffersByCity from '@/entities/Offers/hooks/use-filtered-offers-by-city';
 
-import Map from '@/shared/components/map/map';
+import Map from '@/widgets/map/map';
+import useCurrentCityCoord from '@/widgets/map/hooks/use-current-city-coord';
 
-import { CITY } from '@/mocks/city';
-import { POINTS } from '@/mocks/points';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/use-app-dispatch';
+import CityListPicker from '@/shared/components/city-list-picker/city-list-picker';
 
-type MainPageProps = {
-  offers: TOfferArray;
-};
-
-function MainPage({ offers }: MainPageProps) {
+function MainPage() {
   const [, setActiveCardId] = useState<TOffer['id']>('');
-
   const handleMouseEnter = (id: TOffer['id']) => setActiveCardId(id);
   const handleMouseLeave = () => setActiveCardId('');
+
+  const cityFilter = useAppSelector((state) => state.cityFilter);
+  const filteredOffers = useFiteredOffersByCity();
+  const [cityMap, pointsMap] = useCurrentCityCoord();
+
+  const dispatch = useAppDispatch();
+  const handleClickCity = (city: string) => {
+    dispatch(setCity({ city }));
+  };
 
   return (
     <>
@@ -24,38 +32,10 @@ function MainPage({ offers }: MainPageProps) {
 
       <div className="tabs">
         <section className="locations container">
-          <ul className="locations__list tabs__list">
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Paris</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Cologne</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Brussels</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active">
-                <span>Amsterdam</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Hamburg</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Dusseldorf</span>
-              </a>
-            </li>
-          </ul>
+          <CityListPicker
+            currentCity={cityFilter}
+            onClick={handleClickCity}
+          />
         </section>
       </div>
 
@@ -63,9 +43,9 @@ function MainPage({ offers }: MainPageProps) {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">312 places to stay in Amsterdam</b>
+            <b className="places__found">{filteredOffers.length} places to stay in {cityFilter}</b>
 
-            <form className="places__sorting" action="#" method="get">
+            <form className="places__sorting">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
                 Popular
@@ -82,7 +62,7 @@ function MainPage({ offers }: MainPageProps) {
             </form>
 
             <OffersCardList
-              offers={offers}
+              offers={filteredOffers}
               classPrefix="cities"
               className="tabs__content"
               onMouseEnter={handleMouseEnter}
@@ -92,7 +72,11 @@ function MainPage({ offers }: MainPageProps) {
 
           <div className="cities__right-section">
             <section className="cities__map map" style={{ backgroundImage: 'initial' }}>
-              <Map city={CITY} points={POINTS} selectedPoint={undefined} />
+              <Map
+                city={cityMap}
+                points={pointsMap}
+                selectedPoint={undefined}
+              />
             </section>
           </div>
         </div>

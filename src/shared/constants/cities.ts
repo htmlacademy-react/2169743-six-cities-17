@@ -1,10 +1,12 @@
 export const CITIES = [
-  'paris',
-  'cologne',
-  'brussels',
-  'amsterdam',
-  'hamburg',
-  'dusseldorf',
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
 ] as const;
 
 export type TCity = typeof CITIES[number];
+
+export const CITY_FILTER_DEFAULT = CITIES[0];

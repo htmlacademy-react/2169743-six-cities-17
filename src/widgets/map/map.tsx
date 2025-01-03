@@ -2,8 +2,8 @@ import { useRef, useEffect } from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import useMap from '@/shared/hooks/use-map';
-import type { City, Point, Points } from '@/shared/types/map';
+import useMap from '@/widgets/map/hooks/use-map';
+import type { City, Point, Points } from '@/widgets/map/types';
 
 const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';

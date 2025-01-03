@@ -1,12 +1,10 @@
 import { groupBy } from 'lodash';
-import type { TOffer, TOfferArray } from '@/entities/Offers/types';
+import type { TOffer } from '@/entities/Offers/types';
 import OffersCard from '@/entities/Offers/components/offers-card/offers-card';
+import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
-type FavoritesPageProps = {
-  offers: TOfferArray;
-};
-
-function FavoritesPage({ offers }: FavoritesPageProps) {
+function FavoritesPage() {
+  const offers = useAppSelector((state) => state.offers);
   const groupedOffers = groupBy(offers, ({ city }: TOffer) => city.name);
   const normalizeOffers = Object.entries(groupedOffers);
 
