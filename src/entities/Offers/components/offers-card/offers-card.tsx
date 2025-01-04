@@ -23,15 +23,15 @@ function OffersCard({
   const offerDetailRoute = `offer/${offer.id}`;
 
   const cardClassName = classNames('place-card', {
-    [`${classPrefix}__card`]: classPrefix.length,
+    [`${classPrefix}__card`]: Boolean(classPrefix),
   });
 
   const imageClassName = classNames('place-card__image-wrapper', {
-    [`${classPrefix}__image-wrapper`]: classPrefix.length,
+    [`${classPrefix}__image-wrapper`]: Boolean(classPrefix),
   });
 
   const infoClassName = classNames('place-card__info', {
-    [`${classPrefix}__card-info`]: classPrefix.length && classPrefix === 'favorites',
+    [`${classPrefix}__card-info`]: Boolean(classPrefix) && classPrefix === 'favorites',
   });
 
   const favoriteButtonClass = offer.isFavorite

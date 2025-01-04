@@ -50,7 +50,7 @@ export const mockOffers: TOfferArray = [
   },
   {
     id: '3af6f711-c28d-4121-82cd-e0b462a27f00',
-    title: 'Beautiful & luxurious studio at great location',
+    title: 'Beautiful & luxurious studio at great location 0',
     type: 'apartment',
     price: 120,
     city: {
@@ -73,7 +73,7 @@ export const mockOffers: TOfferArray = [
   },
   {
     id: '33af6f711-c28d-4121-82cd-e0b462a27f00',
-    title: 'Beautiful & luxurious studio at great location',
+    title: 'Beautiful & luxurious studio at great location 1',
     type: 'apartment',
     price: 220,
     city: {

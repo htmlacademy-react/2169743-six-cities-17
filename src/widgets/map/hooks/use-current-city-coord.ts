@@ -1,12 +1,13 @@
 import type { City, Points } from '@/widgets/map/types';
-import useFiteredOffersByCity from '@/entities/Offers/hooks/use-filtered-offers-by-city';
+import useFilteredOffersByCity from '@/entities/Offers/hooks/use-filtered-offers-by-city';
 import { mapPointMapper, mapCityMapper } from './../utils/map-point-mapper';
 import { CITY } from '@/mocks/city';
 import { POINTS } from '@/mocks/points';
 
 function useCurrentCityCoord(): [City, Points] {
-  const filteredOffers = useFiteredOffersByCity();
+  const filteredOffers = useFilteredOffersByCity();
 
+  // TODO: Убрать моки
   if (filteredOffers.length === 0) {
     return [CITY, POINTS];
   }

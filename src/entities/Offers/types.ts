@@ -1,3 +1,5 @@
+import type { TOption } from '@/shared/types';
+
 type TOfferType = 'apartment' | 'room';
 
 type TLocation = {
@@ -23,3 +25,7 @@ export type TOffer = {
 };
 
 export type TOfferArray = Array<TOffer>;
+
+export type TSortSelectOption = TOption & {
+  callback?: (a: TOffer, b: TOffer) => number;
+};

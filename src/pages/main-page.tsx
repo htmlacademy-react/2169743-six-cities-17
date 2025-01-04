@@ -1,30 +1,49 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import { setCity } from '@/store/action';
 
-import type { TOffer } from '@/entities/Offers/types';
+import type { TOffer, TSortSelectOption } from '@/entities/Offers/types';
 import OffersCardList from '@/entities/Offers/components/offers-card-list/offers-card-list';
-import useFiteredOffersByCity from '@/entities/Offers/hooks/use-filtered-offers-by-city';
+import OffersSortSelect from '@/entities/Offers/components/offers-sort-select/offers-sort-select';
+import useFilteredOffersByCity from '@/entities/Offers/hooks/use-filtered-offers-by-city';
+import { SORT_SELECT_PARAMS } from '@/entities/Offers/constants/sort-select-options';
 
 import Map from '@/widgets/map/map';
 import useCurrentCityCoord from '@/widgets/map/hooks/use-current-city-coord';
+import { mapPointMapper } from '@/widgets/map/utils/map-point-mapper';
 
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/use-app-dispatch';
 import CityListPicker from '@/shared/components/city-list-picker/city-list-picker';
 
 function MainPage() {
-  const [, setActiveCardId] = useState<TOffer['id']>('');
-  const handleMouseEnter = (id: TOffer['id']) => setActiveCardId(id);
-  const handleMouseLeave = () => setActiveCardId('');
-
   const cityFilter = useAppSelector((state) => state.cityFilter);
-  const filteredOffers = useFiteredOffersByCity();
+  const filteredOffers = useFilteredOffersByCity();
+  const [sortOffersType, setsortOffersType] = useState<TSortSelectOption['id']>(0);
+
+  const normalizeOffers = useMemo(
+    () => filteredOffers.toSorted(SORT_SELECT_PARAMS[sortOffersType]?.callback),
+    [filteredOffers, sortOffersType],
+  );
+
   const [cityMap, pointsMap] = useCurrentCityCoord();
 
   const dispatch = useAppDispatch();
   const handleClickCity = (city: string) => {
     dispatch(setCity({ city }));
   };
+
+  const [activeCardId, setActiveCardId] = useState<TOffer['id']>('');
+  const handleMouseEnter = (id: TOffer['id']) => setActiveCardId(id);
+  const handleMouseLeave = () => setActiveCardId('');
+  const selectedCardCoord = useMemo(() => {
+    const currentCard = filteredOffers.find((offer) => offer.id === activeCardId);
+
+    if (!currentCard) {
+      return undefined;
+    }
+
+    return mapPointMapper(currentCard);
+  }, [filteredOffers, activeCardId]);
 
   return (
     <>
@@ -43,26 +62,17 @@ function MainPage() {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{filteredOffers.length} places to stay in {cityFilter}</b>
+            <b className="places__found">
+              {filteredOffers.length} places to stay in {cityFilter}
+            </b>
 
-            <form className="places__sorting">
-              <span className="places__sorting-caption">Sort by</span>
-              <span className="places__sorting-type" tabIndex={0}>
-                Popular
-                <svg className="places__sorting-arrow" width="7" height="4">
-                  <use xlinkHref="#icon-arrow-select"></use>
-                </svg>
-              </span>
-              <ul className="places__options places__options--custom places__options--opened">
-                <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                <li className="places__option" tabIndex={0}>Price: low to high</li>
-                <li className="places__option" tabIndex={0}>Price: high to low</li>
-                <li className="places__option" tabIndex={0}>Top rated first</li>
-              </ul>
-            </form>
+            <OffersSortSelect
+              sortValue={sortOffersType}
+              onSelect={(id: TSortSelectOption['id']) => setsortOffersType(id)}
+            />
 
             <OffersCardList
-              offers={filteredOffers}
+              offers={normalizeOffers}
               classPrefix="cities"
               className="tabs__content"
               onMouseEnter={handleMouseEnter}
@@ -75,7 +85,7 @@ function MainPage() {
               <Map
                 city={cityMap}
                 points={pointsMap}
-                selectedPoint={undefined}
+                selectedPoint={selectedCardCoord}
               />
             </section>
           </div>
