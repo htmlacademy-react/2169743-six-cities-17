@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import type { TSortSelectOption } from './../../types';
@@ -12,6 +12,25 @@ type OffersSortSelectProps = {
 function OffersSortSelect({ sortValue, onSelect }: OffersSortSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => setIsOpen((prev) => !prev);
+  const labelRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleHide = (e: MouseEvent) => {
+      if (
+        e.target instanceof HTMLElement &&
+        labelRef.current &&
+        !labelRef.current.contains(e.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleHide);
+
+    return () => {
+      document.removeEventListener('click', handleHide);
+    };
+  }, []);
 
   const selectLabel = SORT_SELECT_PARAMS.find(({ id }) => sortValue === id)!.value;
 
@@ -33,6 +52,7 @@ function OffersSortSelect({ sortValue, onSelect }: OffersSortSelectProps) {
       <span className="places__sorting-caption">Sort by&nbsp;&nbsp;</span>
 
       <span
+        ref={labelRef}
         className="places__sorting-type"
         tabIndex={0}
         onClick={handleToggle}
@@ -46,8 +66,8 @@ function OffersSortSelect({ sortValue, onSelect }: OffersSortSelectProps) {
       <ul className={listClassName}>
         {SORT_SELECT_PARAMS.map(({ id, value }) => (
           <li
-            className={itemClassName(id)}
             key={id}
+            className={itemClassName(id)}
             onClick={() => handleSelect(id)}
           >
             {value}

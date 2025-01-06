@@ -1,6 +1,6 @@
 import type { TOption } from '@/shared/types';
 
-type TOfferType = 'apartment' | 'room';
+type TOfferType = 'apartment' | 'room' | 'house' | 'hotel';
 
 type TLocation = {
   latitude: number;
