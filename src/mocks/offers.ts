@@ -10,14 +10,14 @@ export const mockOffers: TOfferArray = [
     city: {
       name: CITIES[0],
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
+        latitude: 48.8534,
+        longitude: 2.3488,
         zoom: 8,
       },
     },
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 48.8534,
+      longitude: 2.3488,
       zoom: 8,
     },
     isFavorite: false,
@@ -33,14 +33,14 @@ export const mockOffers: TOfferArray = [
     city: {
       name: CITIES[1],
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
+        latitude: 50.9333,
+        longitude: 6.95,
         zoom: 8,
       },
     },
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 50.9333,
+      longitude: 6.95,
       zoom: 8,
     },
     isFavorite: true,
@@ -56,14 +56,14 @@ export const mockOffers: TOfferArray = [
     city: {
       name: CITIES[2],
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
+        latitude: 50.8504,
+        longitude: 4.56878,
         zoom: 8,
       },
     },
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 50.8504,
+      longitude: 4.56878,
       zoom: 8,
     },
     isFavorite: true,
@@ -79,14 +79,14 @@ export const mockOffers: TOfferArray = [
     city: {
       name: CITIES[2],
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
+        latitude: 50.8504,
+        longitude: 4.34878,
         zoom: 8,
       },
     },
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 50.8504,
+      longitude: 4.34878,
       zoom: 8,
     },
     isFavorite: true,
@@ -102,14 +102,14 @@ export const mockOffers: TOfferArray = [
     city: {
       name: CITIES[3],
       location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
+        latitude: 52.374,
+        longitude: 4.88969,
         zoom: 8,
       },
     },
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 52.374,
+      longitude: 4.88969,
       zoom: 8,
     },
     isFavorite: false,

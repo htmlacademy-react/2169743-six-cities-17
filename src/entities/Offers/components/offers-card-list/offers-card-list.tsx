@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import type { TOffer, TOfferArray } from '@/entities/Offers/types';
-import OffersCard from '@/entities/Offers/components/offers-card/offers-card';
+import OffersCard, { type OffersCardOfferProps } from '@/entities/Offers/components/offers-card/offers-card';
 
 type OffersCardListProps = {
   offers: TOfferArray;
@@ -18,7 +18,7 @@ function OffersCardList({
   onMouseLeave,
 }: OffersCardListProps) {
   const cardListeners = (offer: TOffer) => {
-    const listeners: Omit<OffersCardListProps, 'offers'> = {};
+    const listeners: Pick<OffersCardOfferProps, 'onMouseEnter' | 'onMouseLeave'> = {};
 
     if (onMouseEnter !== undefined) {
       listeners.onMouseEnter = () => onMouseEnter(offer.id);

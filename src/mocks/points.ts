@@ -1,4 +1,4 @@
-import type { Points } from '@/shared/types/map';
+import type { Points } from '@/widgets/map/types';
 
 export const POINTS: Points = [
   {
