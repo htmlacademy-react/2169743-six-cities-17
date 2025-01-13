@@ -3,6 +3,7 @@ import { setCity, setOffers } from './action';
 
 import type { TOfferArray } from '@/entities/Offers/types';
 import { CITY_FILTER_DEFAULT } from '@/shared/constants/cities';
+
 import { mockOffers } from '@/mocks/offers';
 
 type State = {

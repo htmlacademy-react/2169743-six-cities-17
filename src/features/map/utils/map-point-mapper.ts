@@ -1,5 +1,5 @@
 import type { TOffer } from '@/entities/Offers/types';
-import type { Point, City } from '@/widgets/map/types';
+import type { Point, City } from '@/features/map/types';
 
 export function mapPointMapper({ title, location }: TOffer): Point {
   return {

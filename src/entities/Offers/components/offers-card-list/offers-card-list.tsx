@@ -31,7 +31,6 @@ function OffersCardList({
     return listeners;
   };
 
-  // TODO: привести к одному виду
   const listClassName = classNames('places__list', {
     [className]: Boolean(className),
     [`${classPrefix}__places-list`]: Boolean(classPrefix),
