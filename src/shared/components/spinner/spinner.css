@@ -1,0 +1,40 @@
+.sp-overlay {
+  position: fixed;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: #fff;
+}
+
+.sp {
+	width: 32px;
+	height: 32px;
+	margin: 20px auto;
+
+  clear: both;
+}
+
+.sp-circle {
+	-webkit-animation: spCircRot .6s infinite linear;
+	animation: spCircRot .6s infinite linear;
+
+	border: 4px #ccc solid;
+	border-top: 4px #999 solid;
+	border-radius: 50%;
+}
+
+@-webkit-keyframes spCircRot {
+	from { -webkit-transform: rotate(0deg); }
+	to { -webkit-transform: rotate(359deg); }
+}
+
+@keyframes spCircRot {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(359deg); }
+}

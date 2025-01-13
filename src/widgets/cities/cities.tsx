@@ -10,6 +10,8 @@ import Map from '@/features/map/map';
 import useCurrentCityCoord from '@/features/map/hooks/use-current-city-coord';
 import { mapPointMapper } from '@/features/map/utils/map-point-mapper';
 
+import Spinner from '@/shared/components/spinner/spinner';
+
 type CitiesProps = {
   currentCity: string;
 };
@@ -38,6 +40,10 @@ function Cities({ currentCity }: CitiesProps) {
 
     return mapPointMapper(currentCard);
   }, [filteredOffers, activeCardId]);
+
+  if (filteredOffers.length === 0) {
+    return <Spinner />;
+  }
 
   return (
     <div className="cities">

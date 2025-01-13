@@ -5,7 +5,7 @@ import type { TOffer } from '@/entities/Offers/types';
 
 import useRating from '@/shared/hooks/use-rating';
 
-type OffersCardOfferProps = {
+export type OffersCardOfferProps = {
   offer: TOffer;
   classPrefix?: string;
   onMouseEnter?: () => void;
@@ -54,12 +54,11 @@ function OffersCard({
         </div>
       )}
 
-      {/* TODO: previewImage */}
       <div className={imageClassName}>
         <Link to={offerDetailRoute}>
           <img
             className="place-card__image"
-            src="img/apartment-small-04.jpg"
+            src={offer.previewImage}
             width="260"
             height="200"
             alt={offer.title}
