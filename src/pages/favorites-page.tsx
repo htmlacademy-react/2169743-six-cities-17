@@ -25,7 +25,7 @@ function FavoritesPage() {
               </div>
 
               <div className="favorites__places">
-                {offersArray.length && offersArray.map((offer) => (
+                {offersArray.length > 0 && offersArray.map((offer) => (
                   <OffersCard
                     key={offer.id}
                     offer={offer}
