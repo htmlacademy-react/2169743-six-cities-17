@@ -5,7 +5,7 @@ import type { TOffer } from '@/entities/Offers/types';
 
 import useRating from '@/shared/hooks/use-rating';
 
-type OffersCardOfferProps = {
+export type OffersCardOfferProps = {
   offer: TOffer;
   classPrefix?: string;
   onMouseEnter?: () => void;

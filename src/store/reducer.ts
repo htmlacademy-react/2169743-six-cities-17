@@ -1,9 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { setCity, setOffers } from './action';
+
+import type { TOfferArray } from '@/entities/Offers/types';
 import { CITY_FILTER_DEFAULT } from '@/shared/constants/cities';
 import { mockOffers } from '@/mocks/offers';
 
-const initialState = {
+type State = {
+  cityFilter: string;
+  offers: TOfferArray;
+};
+
+const initialState: State = {
   cityFilter: CITY_FILTER_DEFAULT,
   offers: mockOffers,
 };
@@ -15,6 +22,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.cityFilter = city;
     })
     .addCase(setOffers, (state, action) => {
-      state.offers = action.payload;
+      const { offers } = action.payload;
+      state.offers = offers;
     });
 });
