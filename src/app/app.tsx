@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Layout from '@/shared/components/layout/layout';
 import PrivateRoute from '@/shared/components/private-route/private-route';
@@ -9,10 +9,12 @@ import FavoritesPage from '@/pages/favorites-page';
 import ErrorPage from '@/pages/error-page';
 
 import { PAGE_ROUTE } from '@/shared/constants/page-path';
+import HistoryRouter from '@/shared/components/history-route/history-route';
+import browserHistory from '@/shared/utils/browser-history';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={PAGE_ROUTE.main} element={<Layout />}>
           <Route index element={<MainPage />} />
@@ -29,7 +31,7 @@ function App() {
         </Route>
         <Route path={PAGE_ROUTE.notFound} element={<ErrorPage />} />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

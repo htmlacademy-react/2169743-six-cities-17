@@ -1,4 +1,4 @@
-const ID_TOKEN_KEY = 'token';
+const ID_TOKEN_KEY = 'six-cities-token';
 
 type Token = string;
 

@@ -7,7 +7,7 @@ function useRating(value: number) {
     } else if (value < MIN_RATING) {
       return MIN_RATING;
     } else {
-      return value;
+      return Math.round(value);
     }
   };
 

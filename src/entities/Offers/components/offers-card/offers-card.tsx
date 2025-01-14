@@ -1,9 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import type { TOffer } from '@/entities/Offers/types';
 
 import useRating from '@/shared/hooks/use-rating';
+import useAuth from '@/shared/hooks/use-auth';
+import { PAGE_PATH } from '@/shared/constants/page-path';
 
 export type OffersCardOfferProps = {
   offer: TOffer;
@@ -18,6 +20,8 @@ function OffersCard({
   onMouseEnter,
   onMouseLeave,
 }: OffersCardOfferProps) {
+  const navigate = useNavigate();
+  const { isAuth } = useAuth();
   const { ratingWidthValue } = useRating(offer.rating);
 
   const offerDetailRoute = `offer/${offer.id}`;
@@ -41,6 +45,14 @@ function OffersCard({
   const favoriteButtonLabel = offer.isFavorite
     ? 'In bookmarks'
     : 'To bookmarks';
+
+  const handleFavoriteClick = () => {
+    if (isAuth) {
+      console.log(123);
+    } else {
+      navigate(PAGE_PATH.login);
+    }
+  };
 
   return (
     <article
@@ -73,7 +85,11 @@ function OffersCard({
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          <button className={favoriteButtonClass} type="button">
+          <button
+            type="button"
+            className={favoriteButtonClass}
+            onClick={handleFavoriteClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

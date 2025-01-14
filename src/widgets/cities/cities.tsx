@@ -11,12 +11,16 @@ import useCurrentCityCoord from '@/features/map/hooks/use-current-city-coord';
 import { mapPointMapper } from '@/features/map/utils/map-point-mapper';
 
 import Spinner from '@/shared/components/spinner/spinner';
+import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
+import useAuth from '@/shared/hooks/use-auth';
 
 type CitiesProps = {
   currentCity: string;
 };
 
 function Cities({ currentCity }: CitiesProps) {
+  const isLoading = useAppSelector((state) => state.isOffersDataLoading);
+
   /** Offer data */
   const filteredOffers = useFilteredOffersByCity();
   const [sortOffersType, setSortOffersType] = useState<TSortSelectOption['id']>(0);
@@ -41,7 +45,7 @@ function Cities({ currentCity }: CitiesProps) {
     return mapPointMapper(currentCard);
   }, [filteredOffers, activeCardId]);
 
-  if (filteredOffers.length === 0) {
+  if (isLoading) {
     return <Spinner />;
   }
 
