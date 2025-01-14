@@ -15,3 +15,15 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
     dispatch(setOffers({ offers: data }));
   },
 );
+
+export const authUserAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/auth',
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.post<TOfferArray>('/login');
+    dispatch(setOffers({ offers: data }));
+  },
+);

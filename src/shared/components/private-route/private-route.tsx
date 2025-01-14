@@ -1,13 +1,12 @@
 import type { PropsWithChildren } from 'react';
 import { Navigate } from 'react-router-dom';
 import { PAGE_ROUTE } from '@/shared/constants/page-path';
-import { AUTH_STATUS, type TAuthStatus } from '@/shared/constants/auth';
+import { AUTH_STATUS } from '@/shared/constants/auth';
+import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
-type PrivateRouteProps = PropsWithChildren<{
-  authStatus: TAuthStatus;
-}>;
+function PrivateRoute({ children }: PropsWithChildren) {
+  const authStatus = useAppSelector((state) => state.authStatus);
 
-function PrivateRoute({ authStatus, children }: PrivateRouteProps) {
   return (
     authStatus === AUTH_STATUS.auth
       ? children

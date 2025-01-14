@@ -9,11 +9,8 @@ import FavoritesPage from '@/pages/favorites-page';
 import ErrorPage from '@/pages/error-page';
 
 import { PAGE_ROUTE } from '@/shared/constants/page-path';
-import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
 function App() {
-  const authStatus = useAppSelector((state) => state.authStatus);
-
   return (
     <BrowserRouter>
       <Routes>
@@ -24,7 +21,7 @@ function App() {
           <Route
             path={PAGE_ROUTE.favorites}
             element={
-              <PrivateRoute authStatus={authStatus}>
+              <PrivateRoute>
                 <FavoritesPage />
               </PrivateRoute>
             }
