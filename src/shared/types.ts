@@ -1,3 +1,5 @@
+export type Nullish<T> = T | null;
+
 export type TOption = {
   id: number;
   value: string;
@@ -12,3 +14,4 @@ export type ApiError = {
     messages: Array<string>;
   }>;
 };
+

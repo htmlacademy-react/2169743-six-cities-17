@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { reducer } from './reducer';
 import request from '@/shared/request';
+import { redirect } from './middleware/redirect';
 
 export const store = configureStore({
   reducer,
@@ -9,5 +10,5 @@ export const store = configureStore({
       thunk: {
         extraArgument: request,
       },
-    }).concat(),
+    }).concat(redirect),
 });

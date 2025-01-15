@@ -11,12 +11,15 @@ import useCurrentCityCoord from '@/features/map/hooks/use-current-city-coord';
 import { mapPointMapper } from '@/features/map/utils/map-point-mapper';
 
 import Spinner from '@/shared/components/spinner/spinner';
+import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
 type CitiesProps = {
   currentCity: string;
 };
 
 function Cities({ currentCity }: CitiesProps) {
+  const isLoading = useAppSelector((state) => state.isOffersDataLoading);
+
   /** Offer data */
   const filteredOffers = useFilteredOffersByCity();
   const [sortOffersType, setSortOffersType] = useState<TSortSelectOption['id']>(0);
@@ -41,33 +44,35 @@ function Cities({ currentCity }: CitiesProps) {
     return mapPointMapper(currentCard);
   }, [filteredOffers, activeCardId]);
 
-  if (filteredOffers.length === 0) {
-    return <Spinner />;
-  }
-
   return (
     <div className="cities">
       <div className="cities__places-container container">
-        <section className="cities__places places">
-          <h2 className="visually-hidden">Places</h2>
+        <section className="cities__places places" style={{ position: 'relative', minHeight: '366px' }}>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              <h2 className="visually-hidden">Places</h2>
 
-          <b className="places__found">
-            {filteredOffers.length} places to stay in {currentCity}
-          </b>
+              <b className="places__found">
+                {filteredOffers.length} places to stay in {currentCity}
+              </b>
 
-          <OffersSortSelect
-            sortValue={sortOffersType}
-            onSelect={(id: TSortSelectOption['id']) => setSortOffersType(id)}
-          />
+              <OffersSortSelect
+                sortValue={sortOffersType}
+                onSelect={(id: TSortSelectOption['id']) => setSortOffersType(id)}
+              />
 
-          {/* TODO: Offers-empty */}
-          <OffersCardList
-            offers={normalizeOffers}
-            classPrefix="cities"
-            className="tabs__content"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          />
+              {/* TODO: Offers-empty */}
+              <OffersCardList
+                offers={normalizeOffers}
+                classPrefix="cities"
+                className="tabs__content"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              />
+            </>
+          )}
         </section>
 
         <div className="cities__right-section">
