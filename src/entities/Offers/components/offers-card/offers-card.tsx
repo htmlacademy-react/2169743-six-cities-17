@@ -48,7 +48,8 @@ function OffersCard({
 
   const handleFavoriteClick = () => {
     if (isAuth) {
-      console.log(123);
+      // TODO:
+      return null;
     } else {
       navigate(PAGE_PATH.login);
     }

@@ -43,7 +43,6 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetUser, (state) => {
       state.user = setupUserState();
-      // todo: redirect
     })
     .addCase(setUserData, (state, action) => {
       const { profile } = action.payload;

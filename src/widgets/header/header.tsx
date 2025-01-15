@@ -1,5 +1,5 @@
 import type { MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { logoutUserAction } from '@/store/api-actions';
 
@@ -9,6 +9,7 @@ import { PAGE_PATH } from '@/shared/constants/page-path';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
 function Header() {
+  const { pathname } = useLocation();
   const { isAuth } = useAuth();
   const profile = useAppSelector((state) => state.user.profile);
   const dispatch = useAppDispatch();
@@ -26,35 +27,37 @@ function Header() {
             <LogoLink width="81" height="41" />
           </div>
 
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              {isAuth ? (
-                <>
+          {pathname !== PAGE_PATH.login && (
+            <nav className="header__nav">
+              <ul className="header__nav-list">
+                {isAuth ? (
+                  <>
+                    <li className="header__nav-item user">
+                      <Link to={PAGE_PATH.favorites} className="header__nav-link header__nav-link--profile">
+                        <div className="header__avatar-wrapper user__avatar-wrapper">
+                        </div>
+                        <span className="header__user-name user__name">{profile?.email}</span>
+                        <span className="header__favorite-count">3</span>
+                      </Link>
+                    </li>
+                    <li className="header__nav-item">
+                      <a className="header__nav-link" href="#" onClick={(e) => handleUserLogout(e)}>
+                        <span className="header__signout">Sign out</span>
+                      </a>
+                    </li>
+                  </>
+                ) : (
                   <li className="header__nav-item user">
-                    <Link to={PAGE_PATH.favorites} className="header__nav-link header__nav-link--profile">
+                    <Link to={PAGE_PATH.login} className="header__nav-link header__nav-link--profile">
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span className="header__user-name user__name">{profile?.email}</span>
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__login">Sign in</span>
                     </Link>
                   </li>
-                  <li className="header__nav-item">
-                    <a className="header__nav-link" href="#" onClick={(e) => handleUserLogout(e)}>
-                      <span className="header__signout">Sign out</span>
-                    </a>
-                  </li>
-                </>
-              ) : (
-                <li className="header__nav-item user">
-                  <Link to={PAGE_PATH.login} className="header__nav-link header__nav-link--profile">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__login">Sign in</span>
-                  </Link>
-                </li>
-              )}
-            </ul>
-          </nav>
+                )}
+              </ul>
+            </nav>
+          )}
         </div>
       </div>
     </header>

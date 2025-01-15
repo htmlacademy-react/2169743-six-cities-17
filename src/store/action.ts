@@ -2,9 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import type { TOfferArray } from '@/entities/Offers/types';
 import type { TAuthStatus } from '@/shared/constants/auth';
 import type { TUser } from '@/entities/User/types';
-import type { PAGE_PATH } from '@/shared/constants/page-path';
 
-// TODO: app route
 export const redirectToRoute = createAction<string>('app/redirectToRoute');
 
 export const setCity = createAction<{ city: string }>('city/set');
