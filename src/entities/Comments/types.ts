@@ -1,11 +1,6 @@
-export type CommentPayload = {
-  comment: string;
-  rating: number;
-};
-
 export type TComment = {
   id: string;
-  date: string; // TODO: Date ?
+  date: string;
   user: {
     name: string;
     avatarUrl: string;

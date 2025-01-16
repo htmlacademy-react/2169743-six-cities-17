@@ -1,13 +1,15 @@
 import type { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { AppDispatch, State } from './types';
-import { redirectToRoute, resetUser, setAuthStatus, setOffers, setOffersDataLoadingStatus, setUserData } from './action';
-import type { TOfferArray } from '@/entities/Offers/types';
+import { addComment, redirectToRoute, resetOfferDetail, resetUser, setAuthStatus, setComments, setOfferDetail, setOffers, setOffersDataLoadingStatus, setOffersNearby, setUserData } from './action';
+import type { TOfferArray, TOfferDetail } from '@/entities/Offers/types';
 import type { AuthPayload } from '@/features/auth-form/types';
 import { AUTH_STATUS } from '@/shared/constants/auth';
 import jwtService from '@/shared/utils/jwt.service';
 import type { TUser } from '@/entities/User/types';
 import { PAGE_PATH } from '@/shared/constants/page-path';
+import type { TComment, TCommentArray } from '@/entities/Comments/types';
+import type { TCommentParams } from '@/features/comment-form/types';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -71,5 +73,61 @@ export const logoutUserAction = createAsyncThunk<void, undefined, {
     jwtService.destroyToken();
     dispatch(resetUser());
     dispatch(setAuthStatus({ status: AUTH_STATUS.unauth }));
+  },
+);
+
+export const fetchOfferByIdAction = createAsyncThunk<void, TOfferDetail['id'], {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/detail/fetch',
+  async (offerId, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<TOfferDetail>(`/offers/${offerId}`);
+      dispatch(setOfferDetail({ detail: data }));
+    } catch (error) {
+      dispatch(resetOfferDetail());
+    }
+  },
+);
+
+export const fetchOffersNearbyAction = createAsyncThunk<void, TOfferDetail['id'], {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/detail/nearby/fetch',
+  async (offerId, { dispatch, extra: api }) => {
+    const { data } = await api.get<TOfferArray>(`/offers/${offerId}/nearby`);
+    dispatch(setOffersNearby({ offers: data }));
+  },
+);
+
+export const fetchCommentsByOfferIdAction = createAsyncThunk<void, TOfferDetail['id'], {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/detail/comments/fetch',
+  async (offerId, { dispatch, extra: api }) => {
+    const { data } = await api.get<TCommentArray>(`/comments/${offerId}`);
+    dispatch(setComments({ comments: data }));
+  },
+);
+
+export const sendCommentAction = createAsyncThunk<void, TCommentParams, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/detail/comment/send',
+  async (params, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.post<TComment>(`/comments/${params.offerId}`, params.payload);
+      dispatch(addComment({ comment: data }));
+    } catch (e) {
+      // TODO: обработать коды ошибок
+    }
   },
 );
