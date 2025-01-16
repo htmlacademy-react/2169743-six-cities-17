@@ -1,8 +1,17 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
-import type { CommentPayload } from '@/entities/Comments/types';
+import type { CommentPayload } from './types';
+import { useAppDispatch } from '@/shared/hooks/use-app-dispatch';
+import type { TOfferDetail } from '@/entities/Offers/types';
+import { sendCommentAction } from '@/store/api-actions';
 
-function CommentsForm() {
-  const [, setCommentModel] = useState<CommentPayload>({
+type CommentFormProps = {
+  offerId?: TOfferDetail['id'];
+};
+
+function CommentForm({ offerId = '' }: CommentFormProps) {
+  const dispatch = useAppDispatch();
+
+  const [commentModel, setCommentModel] = useState<CommentPayload>({
     comment: '',
     rating: 0,
   });
@@ -17,12 +26,16 @@ function CommentsForm() {
     comment: e.target.value,
   }));
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(sendCommentAction({
+      offerId,
+      payload: commentModel,
+    }));
   };
 
   return (
-    <form className="reviews__form form" onSubmit={handleSubmit}>
+    <form className="reviews__form form" onSubmit={(e) => handleSubmit(e)}>
       <label
         className="reviews__label form__label"
         htmlFor="review"
@@ -91,4 +104,4 @@ function CommentsForm() {
   );
 }
 
-export default CommentsForm;
+export default CommentForm;

@@ -1,5 +1,6 @@
-import type { TComment } from '../../types';
+import type { TComment } from './../../types';
 import useRating from '@/shared/hooks/use-rating';
+import normalizeDate from '@/shared/utils/normalize-date';
 
 type CommentsItemProps = {
   comment: TComment;
@@ -7,18 +8,18 @@ type CommentsItemProps = {
 
 function CommentsItem({ comment }: CommentsItemProps) {
   const { ratingWidthValue } = useRating(comment.rating);
+  const { dateLabel, attrDateTime } = normalizeDate(comment.date);
 
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
-        {/* Image */}
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
-            className="reviews__avatar user__avatar"
-            src="img/avatar-max.jpg"
+            src={comment.user.avatarUrl}
             width="54"
             height="54"
             alt="Reviews avatar"
+            className="reviews__avatar user__avatar"
           />
         </div>
 
@@ -35,8 +36,12 @@ function CommentsItem({ comment }: CommentsItemProps) {
 
         <p className="reviews__text">{comment.comment}</p>
 
-        {/* TODO: date */}
-        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
+        <time
+          className="reviews__time"
+          dateTime={attrDateTime}
+        >
+          {dateLabel}
+        </time>
       </div>
     </li>
   );

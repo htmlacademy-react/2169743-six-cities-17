@@ -1,6 +1,6 @@
 import { MAX_RATING, MIN_RATING } from '@/shared/constants/rating';
 
-function useRating(value: number) {
+function useRating(value: number = 0) {
   const normalizeRating = () => {
     if (value > MAX_RATING) {
       return MAX_RATING;

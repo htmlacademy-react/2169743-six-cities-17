@@ -1,4 +1,4 @@
-import type { TUserState } from './../types';
+import type { TUserState } from '../types';
 
 function setupUserState(): TUserState {
   return {
