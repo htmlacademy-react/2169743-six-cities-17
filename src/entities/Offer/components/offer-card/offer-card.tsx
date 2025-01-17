@@ -1,25 +1,25 @@
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
-import type { TOffer } from '@/entities/Offers/types';
+import type { TOffer } from '@/entities/Offer/types';
 
 import useRating from '@/shared/hooks/use-rating';
 import useAuth from '@/shared/hooks/use-auth';
 import { PAGE_PATH } from '@/shared/constants/page-path';
 
-export type OffersCardOfferProps = {
+export type OfferCardOfferProps = {
   offer: TOffer;
   classPrefix?: string;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 };
 
-function OffersCard({
+function OfferCard({
   offer,
   classPrefix = '',
   onMouseEnter,
   onMouseLeave,
-}: OffersCardOfferProps) {
+}: OfferCardOfferProps) {
   const navigate = useNavigate();
   const { isAuth } = useAuth();
   const { ratingWidthValue } = useRating(offer.rating);
@@ -117,4 +117,4 @@ function OffersCard({
   );
 }
 
-export default OffersCard;
+export default OfferCard;

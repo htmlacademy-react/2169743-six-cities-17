@@ -1,6 +1,6 @@
 import { groupBy } from 'lodash';
-import type { TOffer } from '@/entities/Offers/types';
-import OffersCard from '@/entities/Offers/components/offers-card/offers-card';
+import type { TOffer } from '@/entities/Offer/types';
+import OfferCard from '@/entities/Offer/components/offer-card/offer-card';
 import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
 function FavoritesPage() {
@@ -26,7 +26,7 @@ function FavoritesPage() {
 
               <div className="favorites__places">
                 {offersArray.length > 0 && offersArray.map((offer) => (
-                  <OffersCard
+                  <OfferCard
                     key={offer.id}
                     offer={offer}
                     classPrefix="favorites"

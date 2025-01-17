@@ -1,4 +1,4 @@
-import type { TOfferArray } from '@/entities/Offers/types';
+import type { TOfferArray } from '@/entities/Offer/types';
 import { CITIES } from '@/shared/constants/cities';
 
 export const mockOffers: TOfferArray = [

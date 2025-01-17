@@ -1,5 +1,5 @@
 import type { Nullish, TOption } from '@/shared/types';
-import type { TCommentArray } from './../Comments/types';
+import type { TCommentArray } from '../Comment/types';
 
 type TOfferType = 'apartment' | 'room' | 'house' | 'hotel';
 

@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import type { CommentPayload } from './types';
 import { useAppDispatch } from '@/shared/hooks/use-app-dispatch';
-import type { TOfferDetail } from '@/entities/Offers/types';
+import type { TOfferDetail } from '@/entities/Offer/types';
 import { sendCommentAction } from '@/store/api-actions';
 
 type CommentFormProps = {

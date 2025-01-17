@@ -1,5 +1,5 @@
 import type { Nullish } from '@/shared/types';
-import type { TOfferArray } from '@/entities/Offers/types';
+import type { TOfferArray } from '@/entities/Offer/types';
 
 export type TUser = {
   name: string;

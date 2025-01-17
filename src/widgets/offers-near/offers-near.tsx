@@ -1,4 +1,4 @@
-import OffersCardList from '@/entities/Offers/components/offers-card-list/offers-card-list';
+import OfferCardList from '@/entities/Offer/components/offer-card-list/offer-card-list';
 import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
 function OffersNear() {
@@ -9,7 +9,7 @@ function OffersNear() {
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
-        <OffersCardList
+        <OfferCardList
           offers={offersNear}
           classPrefix="near-places"
           className="near-places__list"

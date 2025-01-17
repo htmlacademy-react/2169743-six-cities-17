@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import type { TOfferArray, TOfferDetail } from '@/entities/Offers/types';
+import type { TOfferArray, TOfferDetail } from '@/entities/Offer/types';
 import type { TAuthStatus } from '@/shared/constants/auth';
 import type { TUser } from '@/entities/User/types';
-import type { TComment, TCommentArray } from '@/entities/Comments/types';
+import type { TComment, TCommentArray } from '@/entities/Comment/types';
 
 export const redirectToRoute = createAction<string>('app/redirectToRoute');
 

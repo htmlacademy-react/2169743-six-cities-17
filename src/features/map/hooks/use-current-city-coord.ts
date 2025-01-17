@@ -1,5 +1,5 @@
 import type { City, Points } from '@/features/map/types';
-import useFilteredOffersByCity from '@/entities/Offers/hooks/use-filtered-offers-by-city';
+import useFilteredOffersByCity from '@/entities/Offer/hooks/use-filtered-offers-by-city';
 import { mapPointMapper, mapCityMapper } from '../utils/map-point-mapper';
 import { CITY } from '@/mocks/city';
 import { POINTS } from '@/mocks/points';

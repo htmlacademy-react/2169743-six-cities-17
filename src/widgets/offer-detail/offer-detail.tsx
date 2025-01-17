@@ -6,7 +6,7 @@ import useAuth from '@/shared/hooks/use-auth';
 import declOfNum from '@/shared/utils/decl-of-num';
 
 import CommentForm from '@/features/comment-form/comment-form';
-import CommentsList from '@/entities/Comments/components/comments-list/comments-list';
+import CommentList from '@/entities/Comment/components/comment-list/comment-list';
 
 import Map from '@/features/map/map';
 import { mapPointMapper } from '@/features/map/utils/map-point-mapper';
@@ -141,7 +141,7 @@ function OfferDetail() {
               <span className="reviews__amount">{comments.length}</span>
             </h2>
 
-            <CommentsList comments={comments} />
+            <CommentList comments={comments} />
 
             {isAuth && (
               <CommentForm offerId={offer?.id} />

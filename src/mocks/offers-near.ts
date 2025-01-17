@@ -1,4 +1,4 @@
-import type { TOfferArray } from '@/entities/Offers/types';
+import type { TOfferArray } from '@/entities/Offer/types';
 
 export const OFFERS_NEAR: TOfferArray = [
   {

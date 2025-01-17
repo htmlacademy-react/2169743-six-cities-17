@@ -1,8 +1,5 @@
-import type { FormEvent } from 'react';
-import classNames from 'classnames';
-
-import { setCity } from '@/store/action';
-import { useAppDispatch } from '@/shared/hooks/use-app-dispatch';
+import { useMemo } from 'react';
+import LocationButton from '@/features/location-button/location-button';
 import { CITIES } from '@/shared/constants/cities';
 
 type LocationsProps = {
@@ -10,16 +7,10 @@ type LocationsProps = {
 };
 
 function Locations({ currentCity }: LocationsProps) {
-  const dispatch = useAppDispatch();
-
-  const cityItemClassName = (value: LocationsProps['currentCity']) => classNames('locations__item-link', 'tabs__item', {
-    'tabs__item--active': currentCity.toLowerCase() === value.toLowerCase(),
-  });
-
-  const handleClick = (city: string, e: FormEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    dispatch(setCity({ city }));
-  };
+  const checkActive = useMemo(
+    () => (city: string) => currentCity.toLowerCase() === city.toLowerCase(),
+    [currentCity],
+  );
 
   return (
     <div className="tabs">
@@ -27,13 +18,7 @@ function Locations({ currentCity }: LocationsProps) {
         <ul className="locations__list tabs__list">
           {CITIES.map((city) => (
             <li key={city} className="locations__item">
-              <a
-                className={cityItemClassName(city)}
-                href="#"
-                onClick={(e) => handleClick(city, e)}
-              >
-                <span>{city}</span>
-              </a>
+              <LocationButton city={city} isActive={checkActive(city)} />
             </li>
           ))}
         </ul>

@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { addComment, resetOfferDetail, resetUser, setAuthStatus, setCity, setComments, setOfferDetail, setOffers, setOffersDataLoadingStatus, setOffersNearby, setUserData, setUserFavorites } from './action';
 
-import type { TOfferArray, TOfferDetailState } from '@/entities/Offers/types';
+import type { TOfferArray, TOfferDetailState } from '@/entities/Offer/types';
 import type { TUserState } from '@/entities/User/types';
 import setupUserState from '@/entities/User/utils/setup-user-state';
 
-import setupOfferDetailState from '@/entities/Offers/utils/setup-offer-detail-state';
+import setupOfferDetailState from '@/entities/Offer/utils/setup-offer-detail-state';
 
 import { CITY_FILTER_DEFAULT } from '@/shared/constants/cities';
 import { AUTH_STATUS, type TAuthStatus } from '@/shared/constants/auth';

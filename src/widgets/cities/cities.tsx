@@ -1,10 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
-import type { TOffer, TSortSelectOption } from '@/entities/Offers/types';
-import { SORT_SELECT_PARAMS } from '@/entities/Offers/constants/sort-select-options';
-import OffersCardList from '@/entities/Offers/components/offers-card-list/offers-card-list';
-import OffersSortSelect from '@/entities/Offers/components/offers-sort-select/offers-sort-select';
-import useFilteredOffersByCity from '@/entities/Offers/hooks/use-filtered-offers-by-city';
+import type { TOffer, TSortSelectOption } from '@/entities/Offer/types';
+import { SORT_SELECT_PARAMS } from '@/entities/Offer/constants/sort-select-options';
+import OfferCardList from '@/entities/Offer/components/offer-card-list/offer-card-list';
+import OfferSortSelect from '@/entities/Offer/components/offer-sort-select/offer-sort-select';
+import useFilteredOffersByCity from '@/entities/Offer/hooks/use-filtered-offers-by-city';
 
 import Map from '@/features/map/map';
 import useCurrentCityCoord from '@/features/map/hooks/use-current-city-coord';
@@ -32,8 +32,8 @@ function Cities({ currentCity }: CitiesProps) {
   const [activeCardId, setActiveCardId] = useState<TOffer['id']>('');
   const [cityMap, pointsMap] = useCurrentCityCoord();
 
-  const handleMouseEnter = (id: TOffer['id']) => setActiveCardId(id);
-  const handleMouseLeave = () => setActiveCardId('');
+  const handleMouseEnter = useCallback((id: TOffer['id']) => setActiveCardId(id), [setActiveCardId]);
+  const handleMouseLeave = useCallback(() => setActiveCardId(''), [setActiveCardId]);
   const selectedCardCoord = useMemo(() => {
     const currentCard = filteredOffers.find((offer) => offer.id === activeCardId);
 
@@ -58,13 +58,13 @@ function Cities({ currentCity }: CitiesProps) {
                 {filteredOffers.length} places to stay in {currentCity}
               </b>
 
-              <OffersSortSelect
+              <OfferSortSelect
                 sortValue={sortOffersType}
                 onSelect={(id: TSortSelectOption['id']) => setSortOffersType(id)}
               />
 
               {/* TODO: Offers-empty */}
-              <OffersCardList
+              <OfferCardList
                 offers={normalizeOffers}
                 classPrefix="cities"
                 className="tabs__content"

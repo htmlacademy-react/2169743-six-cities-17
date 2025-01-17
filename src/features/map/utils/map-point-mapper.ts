@@ -1,4 +1,4 @@
-import type { TOffer } from '@/entities/Offers/types';
+import type { TOffer } from '@/entities/Offer/types';
 import type { Point, City } from '@/features/map/types';
 
 export function mapPointMapper({ title, location }: TOffer): Point {
