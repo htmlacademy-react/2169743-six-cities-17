@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { AppDispatch, State } from './types';
-import { addComment, redirectToRoute, resetOfferDetail, resetUser, setAuthStatus, setComments, setOfferDetail, setOffers, setOffersDataLoadingStatus, setOffersNearby, setUserData } from './action';
+import { addComment, redirectToRoute, resetOfferDetail, resetUser, setAuthStatus, setComments, setOfferDetail, setOfferDetailError, setOffers, setOffersDataLoadingStatus, setOffersNearby, setUserData } from './action';
 import type { TOfferArray, TOfferDetail } from '@/entities/Offer/types';
 import type { AuthPayload } from '@/features/auth-form/types';
 import { AUTH_STATUS } from '@/shared/constants/auth';
@@ -85,8 +85,10 @@ export const fetchOfferByIdAction = createAsyncThunk<void, TOfferDetail['id'], {
   async (offerId, { dispatch, extra: api }) => {
     try {
       const { data } = await api.get<TOfferDetail>(`/offers/${offerId}`);
+      dispatch(setOfferDetailError(false));
       dispatch(setOfferDetail({ detail: data }));
     } catch (error) {
+      dispatch(setOfferDetailError(true));
       dispatch(resetOfferDetail());
     }
   },

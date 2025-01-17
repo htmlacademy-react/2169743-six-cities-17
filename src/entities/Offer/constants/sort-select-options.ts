@@ -1,7 +1,6 @@
 import type { TSortSelectOption } from './../types';
 import { sortPriceLowToHigh, sortPriceHighToLow, sortTopRatedFirst } from './../utils/offers-sort';
 
-// TODO: на объект и ключ id
 export const SORT_SELECT_PARAMS: Array<TSortSelectOption> = [
   {
     id: 0,

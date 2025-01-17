@@ -10,6 +10,7 @@ export const setCity = createAction<{ city: string }>('city/set');
 export const setOffersDataLoadingStatus = createAction<boolean>('offers/loading/set');
 export const setAuthStatus = createAction<{ status: TAuthStatus }>('auth/set');
 
+export const setOfferDetailError = createAction<boolean>('offers/detail/loading/set');
 export const setOffers = createAction<{ offers: TOfferArray }>('offers/set');
 export const setOffersNearby = createAction<{ offers: TOfferArray }>('offers/detail/nearby/set');
 export const setComments = createAction<{ comments: TCommentArray }>('offers/detail/comments/set');

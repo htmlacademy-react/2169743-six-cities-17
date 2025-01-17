@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { addComment, resetOfferDetail, resetUser, setAuthStatus, setCity, setComments, setOfferDetail, setOffers, setOffersDataLoadingStatus, setOffersNearby, setUserData, setUserFavorites } from './action';
+import { addComment, resetOfferDetail, resetUser, setAuthStatus, setCity, setComments, setOfferDetail, setOfferDetailError, setOffers, setOffersDataLoadingStatus, setOffersNearby, setUserData, setUserFavorites } from './action';
 
 import type { TOfferArray, TOfferDetailState } from '@/entities/Offer/types';
 import type { TUserState } from '@/entities/User/types';
@@ -13,6 +13,7 @@ import { AUTH_STATUS, type TAuthStatus } from '@/shared/constants/auth';
 type State = {
   cityFilter: string;
   offers: TOfferArray;
+  isDetailError: boolean;
   offerDetail: TOfferDetailState;
   isOffersDataLoading: boolean;
   authStatus: TAuthStatus;
@@ -22,6 +23,7 @@ type State = {
 const initialState: State = {
   cityFilter: CITY_FILTER_DEFAULT,
   offers: [],
+  isDetailError: false,
   offerDetail: setupOfferDetailState(),
   isOffersDataLoading: false,
   authStatus: AUTH_STATUS.unknown,
@@ -40,6 +42,9 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setOffers, (state, action) => {
       const { offers } = action.payload;
       state.offers = offers;
+    })
+    .addCase(setOfferDetailError, (state, action) => {
+      state.isDetailError = action.payload;
     })
     .addCase(setOffersNearby, (state, action) => {
       const { offers } = action.payload;
