@@ -1,30 +1,32 @@
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
-import type { TOffer } from '@/entities/Offers/types';
+import type { TOffer } from '@/entities/Offer/types';
 
 import useRating from '@/shared/hooks/use-rating';
 import useAuth from '@/shared/hooks/use-auth';
 import { PAGE_PATH } from '@/shared/constants/page-path';
 
-export type OffersCardOfferProps = {
+export type OfferCardOfferProps = {
   offer: TOffer;
   classPrefix?: string;
+  imageSize?: { width: number; height: number };
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 };
 
-function OffersCard({
+function OfferCard({
   offer,
   classPrefix = '',
+  imageSize = { width: 260, height: 200 },
   onMouseEnter,
   onMouseLeave,
-}: OffersCardOfferProps) {
+}: OfferCardOfferProps) {
   const navigate = useNavigate();
   const { isAuth } = useAuth();
   const { ratingWidthValue } = useRating(offer.rating);
 
-  const offerDetailRoute = `offer/${offer.id}`;
+  const offerDetailRoute = `/offer/${offer.id}`;
 
   const cardClassName = classNames('place-card', {
     [`${classPrefix}__card`]: Boolean(classPrefix),
@@ -70,11 +72,10 @@ function OffersCard({
       <div className={imageClassName}>
         <Link to={offerDetailRoute}>
           <img
-            className="place-card__image"
             src={offer.previewImage}
-            width="260"
-            height="200"
             alt={offer.title}
+            {...imageSize}
+            className="place-card__image"
           />
         </Link>
       </div>
@@ -117,4 +118,4 @@ function OffersCard({
   );
 }
 
-export default OffersCard;
+export default OfferCard;

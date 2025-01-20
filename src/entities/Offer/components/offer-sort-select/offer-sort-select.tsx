@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import type { TSortSelectOption } from './../../types';
-import { SORT_SELECT_PARAMS } from './../../constants/sort-select-options';
+import type { TSortSelectOption } from '../../types';
+import { SORT_SELECT_PARAMS } from '../../constants/sort-select-options';
 
-type OffersSortSelectProps = {
+type OfferSortSelectProps = {
   sortValue: TSortSelectOption['id'];
   onSelect: (id: TSortSelectOption['id']) => void;
 }
 
-function OffersSortSelect({ sortValue, onSelect }: OffersSortSelectProps) {
+function OfferSortSelectTemplate({ sortValue, onSelect }: OfferSortSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => setIsOpen((prev) => !prev);
   const labelRef = useRef<HTMLElement>(null);
@@ -78,4 +78,6 @@ function OffersSortSelect({ sortValue, onSelect }: OffersSortSelectProps) {
   );
 }
 
-export default OffersSortSelect;
+const OfferSortSelect = memo(OfferSortSelectTemplate);
+
+export default OfferSortSelect;

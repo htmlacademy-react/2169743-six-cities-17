@@ -1,12 +1,12 @@
-import type { TComment } from './../../types';
+import type { TComment } from '../../types';
 import useRating from '@/shared/hooks/use-rating';
 import normalizeDate from '@/shared/utils/normalize-date';
 
-type CommentsItemProps = {
+type CommentItemProps = {
   comment: TComment;
 };
 
-function CommentsItem({ comment }: CommentsItemProps) {
+function CommentItem({ comment }: CommentItemProps) {
   const { ratingWidthValue } = useRating(comment.rating);
   const { dateLabel, attrDateTime } = normalizeDate(comment.date);
 
@@ -34,7 +34,7 @@ function CommentsItem({ comment }: CommentsItemProps) {
           </div>
         </div>
 
-        <p className="reviews__text">{comment.comment}</p>
+        <p className="reviews__text" style={{ wordBreak: 'break-word' }}>{comment.comment}</p>
 
         <time
           className="reviews__time"
@@ -47,4 +47,4 @@ function CommentsItem({ comment }: CommentsItemProps) {
   );
 }
 
-export default CommentsItem;
+export default CommentItem;

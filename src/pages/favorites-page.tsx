@@ -1,10 +1,11 @@
 import { groupBy } from 'lodash';
-import type { TOffer } from '@/entities/Offers/types';
-import OffersCard from '@/entities/Offers/components/offers-card/offers-card';
+import type { TOffer } from '@/entities/Offer/types';
 import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
+import { getOffers } from '@/entities/Offer/model/offer.selector';
+import OfferCardList from '@/entities/Offer/components/offer-card-list/offer-card-list';
 
 function FavoritesPage() {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
   const groupedOffers = groupBy(offers, ({ city }: TOffer) => city.name);
   const normalizeOffers = Object.entries(groupedOffers);
 
@@ -24,15 +25,12 @@ function FavoritesPage() {
                 </div>
               </div>
 
-              <div className="favorites__places">
-                {offersArray.length > 0 && offersArray.map((offer) => (
-                  <OffersCard
-                    key={offer.id}
-                    offer={offer}
-                    classPrefix="favorites"
-                  />
-                ))}
-              </div>
+              <OfferCardList
+                offers={offersArray}
+                className="favorites__places"
+                classPrefix="favorites"
+                imageSize={{ width: 150, height: 110 }}
+              />
             </li>
           ))}
         </ul>

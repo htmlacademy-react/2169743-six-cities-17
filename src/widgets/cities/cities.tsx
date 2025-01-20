@@ -1,39 +1,40 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
+import classNames from 'classnames';
 
-import type { TOffer, TSortSelectOption } from '@/entities/Offers/types';
-import { SORT_SELECT_PARAMS } from '@/entities/Offers/constants/sort-select-options';
-import OffersCardList from '@/entities/Offers/components/offers-card-list/offers-card-list';
-import OffersSortSelect from '@/entities/Offers/components/offers-sort-select/offers-sort-select';
-import useFilteredOffersByCity from '@/entities/Offers/hooks/use-filtered-offers-by-city';
+import type { TOffer, TSortSelectOption } from '@/entities/Offer/types';
+import { SORT_SELECT_PARAMS } from '@/entities/Offer/constants/sort-select-options';
+import OfferCardList from '@/entities/Offer/components/offer-card-list/offer-card-list';
+import OfferSortSelect from '@/entities/Offer/components/offer-sort-select/offer-sort-select';
+import useFilteredOffersByCity from '@/entities/Offer/hooks/use-filtered-offers-by-city';
 
 import Map from '@/features/map/map';
 import useCurrentCityCoord from '@/features/map/hooks/use-current-city-coord';
 import { mapPointMapper } from '@/features/map/utils/map-point-mapper';
-
-import Spinner from '@/shared/components/spinner/spinner';
-import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
 type CitiesProps = {
   currentCity: string;
 };
 
 function Cities({ currentCity }: CitiesProps) {
-  const isLoading = useAppSelector((state) => state.isOffersDataLoading);
-
   /** Offer data */
   const filteredOffers = useFilteredOffersByCity();
+  const hasOffersData = filteredOffers.length > 0;
   const [sortOffersType, setSortOffersType] = useState<TSortSelectOption['id']>(0);
   const normalizeOffers = useMemo(
     () => filteredOffers.toSorted(SORT_SELECT_PARAMS[sortOffersType]?.callback),
     [filteredOffers, sortOffersType],
   );
 
+  const citiesContainerClass = classNames('cities__places-container', 'container', {
+    'cities__places-container--empty': !hasOffersData,
+  });
+
   /** Map data */
   const [activeCardId, setActiveCardId] = useState<TOffer['id']>('');
   const [cityMap, pointsMap] = useCurrentCityCoord();
 
-  const handleMouseEnter = (id: TOffer['id']) => setActiveCardId(id);
-  const handleMouseLeave = () => setActiveCardId('');
+  const handleMouseEnter = useCallback((id: TOffer['id']) => setActiveCardId(id), [setActiveCardId]);
+  const handleMouseLeave = useCallback(() => setActiveCardId(''), [setActiveCardId]);
   const selectedCardCoord = useMemo(() => {
     const currentCard = filteredOffers.find((offer) => offer.id === activeCardId);
 
@@ -45,45 +46,53 @@ function Cities({ currentCity }: CitiesProps) {
   }, [filteredOffers, activeCardId]);
 
   return (
-    <div className="cities">
-      <div className="cities__places-container container">
-        <section className="cities__places places" style={{ position: 'relative', minHeight: '366px' }}>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <>
+    <div className="cities" style={{ height: '100%' }}>
+      <div className={citiesContainerClass}>
+        {hasOffersData ? (
+          <>
+            <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
 
               <b className="places__found">
-                {filteredOffers.length} places to stay in {currentCity}
+                {filteredOffers.length} places to stay in
               </b>
 
-              <OffersSortSelect
+              <OfferSortSelect
                 sortValue={sortOffersType}
                 onSelect={(id: TSortSelectOption['id']) => setSortOffersType(id)}
               />
 
-              {/* TODO: Offers-empty */}
-              <OffersCardList
+              <OfferCardList
                 offers={normalizeOffers}
                 classPrefix="cities"
                 className="tabs__content"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               />
-            </>
-          )}
-        </section>
+            </section>
 
-        <div className="cities__right-section">
-          <section className="cities__map map" style={{ backgroundImage: 'initial' }}>
-            <Map
-              city={cityMap}
-              points={pointsMap}
-              selectedPoint={selectedCardCoord}
-            />
-          </section>
-        </div>
+            <div className="cities__right-section">
+              <section className="cities__map map" style={{ backgroundImage: 'initial' }}>
+                <Map
+                  city={cityMap}
+                  points={pointsMap}
+                  selectedPoint={selectedCardCoord}
+                />
+              </section>
+            </div>
+          </>
+        ) : (
+          <>
+            <section className="cities__no-places">
+              <div className="cities__status-wrapper tabs__content">
+                <b className="cities__status">No places to stay available</b>
+                <p className="cities__status-description">We could not find any property available at the moment in {currentCity}</p>
+              </div>
+            </section>
+            <div className="cities__right-section"></div>
+          </>
+        )}
+
       </div>
     </div>
   );

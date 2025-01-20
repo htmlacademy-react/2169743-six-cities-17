@@ -1,4 +1,4 @@
-import type { TCommentArray } from '@/entities/Comments/types';
+import type { TCommentArray } from '@/entities/Comment/types';
 
 export const reviews: TCommentArray = [
   {

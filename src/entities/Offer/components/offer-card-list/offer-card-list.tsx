@@ -1,24 +1,27 @@
+import { memo } from 'react';
 import classNames from 'classnames';
-import type { TOffer, TOfferArray } from '@/entities/Offers/types';
-import OffersCard, { type OffersCardOfferProps } from '@/entities/Offers/components/offers-card/offers-card';
+import type { TOffer, TOfferArray } from '@/entities/Offer/types';
+import OfferCard, { type OfferCardOfferProps } from '@/entities/Offer/components/offer-card/offer-card';
 
-type OffersCardListProps = {
+type OfferCardListProps = {
   offers: TOfferArray;
   classPrefix?: string;
   className?: string;
+  imageSize?: { width: number; height: number };
   onMouseEnter?: (id: TOffer['id']) => void;
   onMouseLeave?: () => void;
 };
 
-function OffersCardList({
+function OfferCardListTemplate({
   offers,
   classPrefix = '',
   className = '',
+  imageSize,
   onMouseEnter,
   onMouseLeave,
-}: OffersCardListProps) {
+}: OfferCardListProps) {
   const cardListeners = (offer: TOffer) => {
-    const listeners: Pick<OffersCardOfferProps, 'onMouseEnter' | 'onMouseLeave'> = {};
+    const listeners: Pick<OfferCardOfferProps, 'onMouseEnter' | 'onMouseLeave'> = {};
 
     if (onMouseEnter !== undefined) {
       listeners.onMouseEnter = () => onMouseEnter(offer.id);
@@ -39,10 +42,11 @@ function OffersCardList({
   return (
     <div className={listClassName}>
       {offers.map((offer) => (
-        <OffersCard
+        <OfferCard
           key={offer.id}
           offer={offer}
           classPrefix={classPrefix}
+          imageSize={imageSize}
           {...cardListeners(offer)}
         />
       ))}
@@ -50,4 +54,6 @@ function OffersCardList({
   );
 }
 
-export default OffersCardList;
+const OfferCardList = memo(OfferCardListTemplate);
+
+export default OfferCardList;

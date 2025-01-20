@@ -28,8 +28,8 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path={PAGE_ROUTE.notFound} element={<ErrorPage />} />
         </Route>
-        <Route path={PAGE_ROUTE.notFound} element={<ErrorPage />} />
       </Routes>
     </HistoryRouter>
   );

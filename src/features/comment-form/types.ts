@@ -1,4 +1,4 @@
-import type { TOfferDetail } from '@/entities/Offers/types';
+import type { TOfferDetail } from '@/entities/Offer/types';
 
 export type CommentPayload = {
   comment: string;

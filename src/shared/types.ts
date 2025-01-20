@@ -14,4 +14,3 @@ export type ApiError = {
     messages: Array<string>;
   }>;
 };
-
