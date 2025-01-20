@@ -9,7 +9,7 @@ export type TUser = {
   token: string;
 };
 
-export type TUserState = {
+export type TUserDataState = {
   profile: Nullish<TUser>;
   favorites: TOfferArray;
 };

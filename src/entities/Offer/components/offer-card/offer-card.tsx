@@ -10,6 +10,7 @@ import { PAGE_PATH } from '@/shared/constants/page-path';
 export type OfferCardOfferProps = {
   offer: TOffer;
   classPrefix?: string;
+  imageSize?: { width: number; height: number };
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 };
@@ -17,6 +18,7 @@ export type OfferCardOfferProps = {
 function OfferCard({
   offer,
   classPrefix = '',
+  imageSize = { width: 260, height: 200 },
   onMouseEnter,
   onMouseLeave,
 }: OfferCardOfferProps) {
@@ -24,7 +26,7 @@ function OfferCard({
   const { isAuth } = useAuth();
   const { ratingWidthValue } = useRating(offer.rating);
 
-  const offerDetailRoute = `offer/${offer.id}`;
+  const offerDetailRoute = `/offer/${offer.id}`;
 
   const cardClassName = classNames('place-card', {
     [`${classPrefix}__card`]: Boolean(classPrefix),
@@ -70,11 +72,10 @@ function OfferCard({
       <div className={imageClassName}>
         <Link to={offerDetailRoute}>
           <img
-            className="place-card__image"
             src={offer.previewImage}
-            width="260"
-            height="200"
             alt={offer.title}
+            {...imageSize}
+            className="place-card__image"
           />
         </Link>
       </div>

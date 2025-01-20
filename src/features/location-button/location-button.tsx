@@ -1,7 +1,7 @@
 import { memo, useCallback, type FormEvent } from 'react';
 import classNames from 'classnames';
 
-import { setCity } from '@/store/action';
+import { setCity } from '@/widgets/cities/model/cities.slice';
 import { useAppDispatch } from '@/shared/hooks/use-app-dispatch';
 
 type LocationButtonProps = {

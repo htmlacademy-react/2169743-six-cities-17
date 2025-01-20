@@ -13,10 +13,11 @@ import { mapPointMapper } from '@/features/map/utils/map-point-mapper';
 
 import { CITY } from '@/mocks/city';
 import { OFFERS_NEAR } from '@/mocks/offers-near';
+import { getOfferDetail, getOfferDetailComments } from '@/entities/Offer/model/offer.selector';
 
 function OfferDetail() {
-  const offer = useAppSelector((state) => state.offerDetail.data);
-  const comments = useAppSelector((state) => state.offerDetail.comments);
+  const offer = useAppSelector(getOfferDetail);
+  const comments = useAppSelector(getOfferDetailComments);
   const { isAuth } = useAuth();
   const { ratingWidthValue } = useRating(offer?.rating);
   const normalizeMapPoints = OFFERS_NEAR.map(mapPointMapper);
@@ -121,7 +122,9 @@ function OfferDetail() {
                 />
               </div>
 
-              <span className="offer__user-name">{offer?.host.name}</span>
+              <span className="offer__user-name">
+                {offer?.host.name}
+              </span>
 
               {offer?.host.isPro && (
                 <span className="offer__user-status">
@@ -152,7 +155,12 @@ function OfferDetail() {
 
       <section className="offer__map map" style={{ backgroundImage: 'initial' }}>
         {/* TODO: current offer coords */}
-        <Map city={CITY} points={normalizeMapPoints} selectedPoint={undefined} />
+        <Map
+          city={CITY}
+          points={normalizeMapPoints}
+          selectedPoint={undefined}
+          isAcceptZoom={false}
+        />
       </section>
     </section>
   );

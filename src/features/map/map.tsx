@@ -12,6 +12,7 @@ type MapProps = {
   city: City;
   points: Points;
   selectedPoint: Point | undefined;
+  isAcceptZoom?: boolean;
 };
 
 const defaultCustomIcon = new Icon({
@@ -26,9 +27,17 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40],
 });
 
-function Map({ city, points, selectedPoint }: MapProps) {
+function Map({
+  city,
+  points,
+  selectedPoint,
+  isAcceptZoom = true,
+}: MapProps) {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, city, {
+    zoomControl: isAcceptZoom,
+    scrollWheelZoom: isAcceptZoom,
+  });
 
   useEffect(() => {
     if (map) {

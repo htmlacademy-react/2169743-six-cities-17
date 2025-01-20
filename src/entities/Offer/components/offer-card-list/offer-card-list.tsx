@@ -7,6 +7,7 @@ type OfferCardListProps = {
   offers: TOfferArray;
   classPrefix?: string;
   className?: string;
+  imageSize?: { width: number; height: number };
   onMouseEnter?: (id: TOffer['id']) => void;
   onMouseLeave?: () => void;
 };
@@ -15,6 +16,7 @@ function OfferCardListTemplate({
   offers,
   classPrefix = '',
   className = '',
+  imageSize,
   onMouseEnter,
   onMouseLeave,
 }: OfferCardListProps) {
@@ -44,6 +46,7 @@ function OfferCardListTemplate({
           key={offer.id}
           offer={offer}
           classPrefix={classPrefix}
+          imageSize={imageSize}
           {...cardListeners(offer)}
         />
       ))}

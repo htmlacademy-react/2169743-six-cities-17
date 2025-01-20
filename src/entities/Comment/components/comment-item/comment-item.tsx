@@ -34,7 +34,7 @@ function CommentItem({ comment }: CommentItemProps) {
           </div>
         </div>
 
-        <p className="reviews__text">{comment.comment}</p>
+        <p className="reviews__text" style={{ wordBreak: 'break-word' }}>{comment.comment}</p>
 
         <time
           className="reviews__time"

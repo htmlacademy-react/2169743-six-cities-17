@@ -5,9 +5,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { store } from '@/store';
-import { checkAuthAction, fetchOffersAction } from '@/store/api-actions';
 
 import App from '@/app/app';
+import { fetchOffersAction } from '@/entities/Offer/model/offer.api';
+import { checkAuthAction } from '@/entities/User/model/user.api';
 
 store.dispatch(fetchOffersAction());
 store.dispatch(checkAuthAction());

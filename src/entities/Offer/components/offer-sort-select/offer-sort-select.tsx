@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import type { TSortSelectOption } from '../../types';
@@ -9,7 +9,7 @@ type OfferSortSelectProps = {
   onSelect: (id: TSortSelectOption['id']) => void;
 }
 
-function OfferSortSelect({ sortValue, onSelect }: OfferSortSelectProps) {
+function OfferSortSelectTemplate({ sortValue, onSelect }: OfferSortSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => setIsOpen((prev) => !prev);
   const labelRef = useRef<HTMLElement>(null);
@@ -77,5 +77,7 @@ function OfferSortSelect({ sortValue, onSelect }: OfferSortSelectProps) {
     </form>
   );
 }
+
+const OfferSortSelect = memo(OfferSortSelectTemplate);
 
 export default OfferSortSelect;

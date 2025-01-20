@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import type { AuthPayload } from './types';
 import { useAppDispatch } from '@/shared/hooks/use-app-dispatch';
-import { loginUserAction } from '@/store/api-actions';
+import { loginUserAction } from '@/entities/User/model/user.api';
 
 function AuthForm() {
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ function AuthForm() {
   };
 
   return (
-    <form className="login__form form" onSubmit={(e) => handleLoginSubmit(e)}>
+    <form className="login__form form" onSubmit={handleLoginSubmit}>
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">
           E-mail
@@ -38,7 +38,7 @@ function AuthForm() {
           name="email"
           placeholder="Email"
           required
-          onChange={(e) => handleChangeInput(e)}
+          onChange={handleChangeInput}
         />
       </div>
 
@@ -53,7 +53,7 @@ function AuthForm() {
           name="password"
           placeholder="Password"
           required
-          onChange={(e) => handleChangeInput(e)}
+          onChange={handleChangeInput}
         />
       </div>
 

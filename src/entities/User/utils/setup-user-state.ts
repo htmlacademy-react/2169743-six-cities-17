@@ -1,6 +1,6 @@
-import type { TUserState } from '../types';
+import type { TUserDataState } from '../types';
 
-function setupUserState(): TUserState {
+function setupUserState(): TUserDataState {
   return {
     profile: null,
     favorites: [],

@@ -1,8 +1,9 @@
 import OfferCardList from '@/entities/Offer/components/offer-card-list/offer-card-list';
+import { getOfferDetailNearby } from '@/entities/Offer/model/offer.selector';
 import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
 function OffersNear() {
-  const offersNear = useAppSelector((state) => state.offerDetail.offersNearby);
+  const offersNear = useAppSelector(getOfferDetailNearby);
 
   return (
     <div className="container">

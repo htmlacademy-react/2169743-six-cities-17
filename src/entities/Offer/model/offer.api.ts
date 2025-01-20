@@ -1,50 +1,41 @@
-import { setOffersDataLoadingStatus, setOffers, setOfferDetailError, setOfferDetail, resetOfferDetail, setOffersNearby } from '@/store/action';
-import type { AppDispatch, State } from '@/store/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { AxiosInstance } from 'axios';
+import type { AppDispatch, State } from '@/store/types';
 import type { TOfferArray, TOfferDetail } from '../types';
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
+export const fetchOffersAction = createAsyncThunk<TOfferArray, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offers/fetch',
-  async (_arg, { dispatch, extra: api }) => {
-    dispatch(setOffersDataLoadingStatus(true));
+  async (_arg, { extra: api }) => {
     const { data } = await api.get<TOfferArray>('/offers');
-    dispatch(setOffersDataLoadingStatus(false));
-    dispatch(setOffers({ offers: data }));
+    return data;
   },
 );
 
-export const fetchOfferByIdAction = createAsyncThunk<void, TOfferDetail['id'], {
+export const fetchOfferDetailAction = createAsyncThunk<TOfferDetail, TOfferDetail['id'], {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offers/detail/fetch',
-  async (offerId, { dispatch, extra: api }) => {
-    try {
-      const { data } = await api.get<TOfferDetail>(`/offers/${offerId}`);
-      dispatch(setOfferDetailError(false));
-      dispatch(setOfferDetail({ detail: data }));
-    } catch (error) {
-      dispatch(setOfferDetailError(true));
-      dispatch(resetOfferDetail());
-    }
+  async (offerId, { extra: api }) => {
+    const { data } = await api.get<TOfferDetail>(`/offers/${offerId}`);
+    return data;
   },
 );
 
-export const fetchOffersNearbyAction = createAsyncThunk<void, TOfferDetail['id'], {
+export const fetchOffersNearbyAction = createAsyncThunk<TOfferArray, TOfferDetail['id'], {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offers/detail/nearby/fetch',
-  async (offerId, { dispatch, extra: api }) => {
+  async (offerId, { extra: api }) => {
     const { data } = await api.get<TOfferArray>(`/offers/${offerId}/nearby`);
-    dispatch(setOffersNearby({ offers: data }));
+    return data;
   },
 );
 

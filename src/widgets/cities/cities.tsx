@@ -46,7 +46,7 @@ function Cities({ currentCity }: CitiesProps) {
   }, [filteredOffers, activeCardId]);
 
   return (
-    <div className="cities">
+    <div className="cities" style={{ height: '100%' }}>
       <div className={citiesContainerClass}>
         {hasOffersData ? (
           <>

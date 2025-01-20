@@ -1,7 +1,8 @@
 import axios, { AxiosError, type AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
-import { toast } from 'react-toastify';
 import jwtService from './utils/jwt.service';
+import displayError from './utils/display-error';
+import type { ApiError } from './types';
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
@@ -28,9 +29,9 @@ request.interceptors.request.use((config) => {
 
 request.interceptors.response.use(
   (response) => response,
-  (error: AxiosError<{ error: string }>) => {
+  (error: AxiosError<ApiError>) => {
     if (error.response && shouldDisplayError(error.response)) {
-      toast.warn(error.response.data.error);
+      displayError(error.response.data);
     }
 
     throw error;

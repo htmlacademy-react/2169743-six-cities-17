@@ -5,7 +5,7 @@ import Header from '@/widgets/header/header';
 import Footer from '@/widgets/footer/footer';
 
 import { PAGE_PATH, PAGE_ROUTE } from '@/shared/constants/page-path';
-import useFilteredOffersByCity from '@/entities/Offers/hooks/use-filtered-offers-by-city';
+import useFilteredOffersByCity from '@/entities/Offer/hooks/use-filtered-offers-by-city';
 
 function Layout() {
   const { pathname } = useLocation();
