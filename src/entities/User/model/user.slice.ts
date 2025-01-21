@@ -3,7 +3,7 @@ import type { TUserDataState } from '../types';
 import { StoreSlice } from '@/shared/constants/store-slice';
 import setupUserState from '../utils/setup-user-state';
 import { AUTH_STATUS, type TAuthStatus } from '@/shared/constants/auth';
-import { checkAuthAction, loginUserAction, logoutUserAction } from './user.api';
+import { checkAuthAction, fetchFavoritesOffersAction, loginUserAction, logoutUserAction } from './user.api';
 
 export type TUserState = {
   authStatus: TAuthStatus;
@@ -40,6 +40,9 @@ export const userSlice = createSlice({
       .addCase(logoutUserAction.fulfilled, (state) => {
         state.user = setupUserState();
         state.authStatus = AUTH_STATUS.unauth;
+      })
+      .addCase(fetchFavoritesOffersAction.fulfilled, (state, action) => {
+        state.user.favorites = action.payload;
       });
   },
 });

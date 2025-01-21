@@ -10,6 +10,7 @@ import useFilteredOffersByCity from '@/entities/Offer/hooks/use-filtered-offers-
 import Map from '@/features/map/map';
 import useCurrentCityCoord from '@/features/map/hooks/use-current-city-coord';
 import { mapPointMapper } from '@/features/map/utils/map-point-mapper';
+import CitiesEmpty from './cities-empty';
 
 type CitiesProps = {
   currentCity: string;
@@ -82,17 +83,8 @@ function Cities({ currentCity }: CitiesProps) {
             </div>
           </>
         ) : (
-          <>
-            <section className="cities__no-places">
-              <div className="cities__status-wrapper tabs__content">
-                <b className="cities__status">No places to stay available</b>
-                <p className="cities__status-description">We could not find any property available at the moment in {currentCity}</p>
-              </div>
-            </section>
-            <div className="cities__right-section"></div>
-          </>
+          <CitiesEmpty currentCity={currentCity} />
         )}
-
       </div>
     </div>
   );

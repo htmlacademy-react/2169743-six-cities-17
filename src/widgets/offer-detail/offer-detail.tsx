@@ -14,6 +14,7 @@ import { mapPointMapper } from '@/features/map/utils/map-point-mapper';
 import { CITY } from '@/mocks/city';
 import { OFFERS_NEAR } from '@/mocks/offers-near';
 import { getOfferDetail, getOfferDetailComments } from '@/entities/Offer/model/offer.selector';
+import BookmarkButton from '@/features/bookmark-button/bookmark-button';
 
 function OfferDetail() {
   const offer = useAppSelector(getOfferDetail);
@@ -28,8 +29,6 @@ function OfferDetail() {
   const avatarWrapperClassname = classNames('offer__avatar-wrapper', 'user__avatar-wrapper', {
     'offer__avatar-wrapper--pro': offer?.host.isPro,
   });
-
-  const handleBookmarkClick = () => {};
 
   return (
     <section className="offer">
@@ -58,16 +57,12 @@ function OfferDetail() {
           <div className="offer__name-wrapper">
             <h1 className="offer__name">{offer?.title}</h1>
 
-            <button
-              className="offer__bookmark-button button"
-              type="button"
-              onClick={handleBookmarkClick}
-            >
-              <svg className="offer__bookmark-icon" width="31" height="33">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">To bookmarks</span>
-            </button>
+            <BookmarkButton
+              offerId={offer?.id}
+              isActive={offer?.isFavorite}
+              classPrefix="offer"
+              imageSize={{ width: 31, height: 33 }}
+            />
           </div>
 
           <div className="offer__rating rating">

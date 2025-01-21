@@ -19,7 +19,7 @@ export type TOffer = {
     location: TLocation;
   };
   location: TLocation;
-  isFavorite?: boolean;
+  isFavorite: boolean;
   isPremium: boolean;
   rating: number;
   previewImage: string;

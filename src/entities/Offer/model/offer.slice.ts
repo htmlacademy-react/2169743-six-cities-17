@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { TOfferArray, TOfferDetailState } from '../types';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { TOffer, TOfferArray, TOfferDetailState } from '../types';
 import { StoreSlice } from '@/shared/constants/store-slice';
 import setupOfferDetailState from '../utils/setup-offer-detail-state';
 import { fetchOfferDetailAction, fetchOffersAction, fetchOffersNearbyAction } from './offer.api';
@@ -25,6 +25,43 @@ export const offerSlice = createSlice({
   name: StoreSlice.Offer,
   initialState,
   reducers: {
+    toggleOfferFavorite(state, action: PayloadAction<{
+      offerId: TOffer['id'];
+      status: boolean;
+    }>) {
+      const { offerId, status } = action.payload;
+      const offerIndex = state.offers.findIndex((offer) => offer.id === offerId);
+
+      if (offerIndex !== -1) {
+        state.offers[offerIndex].isFavorite = status;
+      }
+    },
+    toggleOfferDetailFavorite(state, action: PayloadAction<{
+      offerId: TOffer['id'];
+      status: boolean;
+    }>) {
+      if (state.detail.data === null) {
+        return;
+      }
+
+      const { offerId, status } = action.payload;
+      const detailOfferId = state.detail.data?.id;
+
+      if (detailOfferId === offerId) {
+        state.detail.data.isFavorite = status;
+      }
+    },
+    toggleOfferNearbyFavorite(state, action: PayloadAction<{
+      offerId: TOffer['id'];
+      status: boolean;
+    }>) {
+      const { offerId, status } = action.payload;
+      const offerIndex = state.detail.offersNearby.findIndex((offer) => offer.id === offerId);
+
+      if (offerIndex !== -1) {
+        state.detail.offersNearby[offerIndex].isFavorite = status;
+      }
+    },
     resetOfferDetail(state) {
       state.detail = setupOfferDetailState();
     },
@@ -61,3 +98,9 @@ export const offerSlice = createSlice({
       });
   },
 });
+
+export const {
+  toggleOfferFavorite,
+  toggleOfferDetailFavorite,
+  toggleOfferNearbyFavorite,
+} = offerSlice.actions;
