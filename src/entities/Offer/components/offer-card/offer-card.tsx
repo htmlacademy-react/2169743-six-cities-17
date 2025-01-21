@@ -1,11 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-
 import type { TOffer } from '@/entities/Offer/types';
-
 import useRating from '@/shared/hooks/use-rating';
-import useAuth from '@/shared/hooks/use-auth';
-import { PAGE_PATH } from '@/shared/constants/page-path';
+import BookmarkButton from '@/features/bookmark-button/bookmark-button';
 
 export type OfferCardOfferProps = {
   offer: TOffer;
@@ -22,8 +19,6 @@ function OfferCard({
   onMouseEnter,
   onMouseLeave,
 }: OfferCardOfferProps) {
-  const navigate = useNavigate();
-  const { isAuth } = useAuth();
   const { ratingWidthValue } = useRating(offer.rating);
 
   const offerDetailRoute = `/offer/${offer.id}`;
@@ -39,23 +34,6 @@ function OfferCard({
   const infoClassName = classNames('place-card__info', {
     [`${classPrefix}__card-info`]: Boolean(classPrefix) && classPrefix === 'favorites',
   });
-
-  const favoriteButtonClass = offer.isFavorite
-    ? 'place-card__bookmark-button place-card__bookmark-button--active button'
-    : 'place-card__bookmark-button button';
-
-  const favoriteButtonLabel = offer.isFavorite
-    ? 'In bookmarks'
-    : 'To bookmarks';
-
-  const handleFavoriteClick = () => {
-    if (isAuth) {
-      // TODO:
-      return null;
-    } else {
-      navigate(PAGE_PATH.login);
-    }
-  };
 
   return (
     <article
@@ -87,16 +65,11 @@ function OfferCard({
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          <button
-            type="button"
-            className={favoriteButtonClass}
-            onClick={handleFavoriteClick}
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">{favoriteButtonLabel}</span>
-          </button>
+          <BookmarkButton
+            offerId={offer.id}
+            isActive={offer.isFavorite}
+            classPrefix="place-card"
+          />
         </div>
 
         <div className="place-card__rating rating">

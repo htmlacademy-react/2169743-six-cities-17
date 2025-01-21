@@ -8,10 +8,12 @@ import { store } from '@/store';
 
 import App from '@/app/app';
 import { fetchOffersAction } from '@/entities/Offer/model/offer.api';
-import { checkAuthAction } from '@/entities/User/model/user.api';
+import { checkAuthAction, fetchFavoritesOffersAction } from '@/entities/User/model/user.api';
 
 store.dispatch(fetchOffersAction());
-store.dispatch(checkAuthAction());
+store.dispatch(checkAuthAction()).then(() => {
+  store.dispatch(fetchFavoritesOffersAction());
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

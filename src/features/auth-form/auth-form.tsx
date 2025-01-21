@@ -1,7 +1,8 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import type { AuthPayload } from './types';
 import { useAppDispatch } from '@/shared/hooks/use-app-dispatch';
-import { loginUserAction } from '@/entities/User/model/user.api';
+import { fetchFavoritesOffersAction, loginUserAction } from '@/entities/User/model/user.api';
+import { fetchOffersAction } from '@/entities/Offer/model/offer.api';
 
 function AuthForm() {
   const dispatch = useAppDispatch();
@@ -22,7 +23,11 @@ function AuthForm() {
 
   const handleLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(loginUserAction(authData));
+    dispatch(loginUserAction(authData))
+      .then(() => {
+        dispatch(fetchOffersAction());
+        dispatch(fetchFavoritesOffersAction());
+      });
   };
 
   return (

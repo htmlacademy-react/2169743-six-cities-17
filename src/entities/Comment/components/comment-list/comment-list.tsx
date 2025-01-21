@@ -6,7 +6,6 @@ type CommentListProps = {
 };
 
 function CommentList({ comments }: CommentListProps) {
-
   return (
     <ul className="reviews__list">
       {comments.map((comment) => (

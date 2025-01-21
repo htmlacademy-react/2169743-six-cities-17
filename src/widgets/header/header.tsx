@@ -7,6 +7,7 @@ import { PAGE_PATH } from '@/shared/constants/page-path';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/use-app-dispatch';
 import { getUserData, getUserFavorites } from '@/entities/User/model/user.selector';
 import { logoutUserAction } from '@/entities/User/model/user.api';
+import { fetchOffersAction } from '@/entities/Offer/model/offer.api';
 
 function Header() {
   const { pathname } = useLocation();
@@ -17,7 +18,8 @@ function Header() {
 
   const handleUserLogout = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    dispatch(logoutUserAction());
+    dispatch(logoutUserAction())
+      .then(() => dispatch(fetchOffersAction()));
   };
 
   return (
