@@ -1,4 +1,5 @@
-// TODO: Изменить название, структуризировать
+import type { TOffer } from '@/entities/Offer/types';
+
 export type City = {
   title: string;
   latitude: number;
@@ -7,7 +8,7 @@ export type City = {
 };
 
 export type Point = {
-  title: string;
+  id: TOffer['id'];
   latitude: number;
   longitude: number;
 };

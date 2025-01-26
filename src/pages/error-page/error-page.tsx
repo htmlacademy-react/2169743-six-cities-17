@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PAGE_ROUTE } from '@/shared/constants/page-path';
+import { PageRoute } from '@/shared/constants/page-path';
 
 type ErrorPageProps = {
   code?: number;
@@ -11,7 +11,7 @@ function ErrorPage({ code = 404, description = 'Page not found' }: ErrorPageProp
     <div className="container">
       <h1>{code}</h1>
       <p>{description}</p>
-      <Link to={PAGE_ROUTE.main}>Back to home</Link>
+      <Link to={PageRoute.Main}>Back to home</Link>
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import classNames from 'classnames';
 
-import type { TOffer, TSortSelectOption } from '@/entities/Offer/types';
+import type { TSortSelectOption } from '@/entities/Offer/types';
 import { SORT_SELECT_PARAMS } from '@/entities/Offer/constants/sort-select-options';
 import OfferCardList from '@/entities/Offer/components/offer-card-list/offer-card-list';
 import OfferSortSelect from '@/entities/Offer/components/offer-sort-select/offer-sort-select';
@@ -9,8 +9,9 @@ import useFilteredOffersByCity from '@/entities/Offer/hooks/use-filtered-offers-
 
 import Map from '@/features/map/map';
 import useCurrentCityCoord from '@/features/map/hooks/use-current-city-coord';
-import { mapPointMapper } from '@/features/map/utils/map-point-mapper';
 import CitiesEmpty from './cities-empty';
+import declOfNum from '@/shared/utils/decl-of-num';
+import useSelectCoord from '@/features/map/hooks/use-select-coord';
 
 type CitiesProps = {
   currentCity: string;
@@ -30,21 +31,11 @@ function Cities({ currentCity }: CitiesProps) {
     'cities__places-container--empty': !hasOffersData,
   });
 
+  const placesLabel = declOfNum(filteredOffers.length, ['place', 'places', 'places']);
+
   /** Map data */
-  const [activeCardId, setActiveCardId] = useState<TOffer['id']>('');
   const [cityMap, pointsMap] = useCurrentCityCoord();
-
-  const handleMouseEnter = useCallback((id: TOffer['id']) => setActiveCardId(id), [setActiveCardId]);
-  const handleMouseLeave = useCallback(() => setActiveCardId(''), [setActiveCardId]);
-  const selectedCardCoord = useMemo(() => {
-    const currentCard = filteredOffers.find((offer) => offer.id === activeCardId);
-
-    if (!currentCard) {
-      return undefined;
-    }
-
-    return mapPointMapper(currentCard);
-  }, [filteredOffers, activeCardId]);
+  const { selectedCoord, handleMouseEnter, handleMouseLeave } = useSelectCoord(filteredOffers);
 
   return (
     <div className="cities" style={{ height: '100%' }}>
@@ -55,7 +46,7 @@ function Cities({ currentCity }: CitiesProps) {
               <h2 className="visually-hidden">Places</h2>
 
               <b className="places__found">
-                {filteredOffers.length} places to stay in
+                {filteredOffers.length} {placesLabel} to stay in {currentCity}
               </b>
 
               <OfferSortSelect
@@ -77,7 +68,7 @@ function Cities({ currentCity }: CitiesProps) {
                 <Map
                   city={cityMap}
                   points={pointsMap}
-                  selectedPoint={selectedCardCoord}
+                  selectedPoint={selectedCoord}
                 />
               </section>
             </div>

@@ -3,7 +3,7 @@ import type { AxiosInstance } from 'axios';
 import type { AppDispatch, State } from '@/store/types';
 import type { TOfferToggleParams, TUser } from '../types';
 import type { AuthPayload } from '@/features/auth-form/types';
-import { PAGE_PATH } from '@/shared/constants/page-path';
+import { PagePath } from '@/shared/constants/page-path';
 import jwtService from '@/shared/utils/jwt.service';
 import { redirectToRoute } from '@/store/action';
 import type { TOfferArray, TOfferDetail } from '@/entities/Offer/types';
@@ -29,7 +29,7 @@ export const loginUserAction = createAsyncThunk<TUser, AuthPayload, {
   async (payload, { dispatch, extra: api }) => {
     const { data } = await api.post<TUser>('/login', payload);
     jwtService.saveToken(data.token);
-    dispatch(redirectToRoute(PAGE_PATH.main));
+    dispatch(redirectToRoute(PagePath.Main));
     return data;
   },
 );
@@ -40,9 +40,10 @@ export const logoutUserAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'user/logout',
-  async (_arg, { extra: api }) => {
+  async (_arg, { dispatch, extra: api }) => {
     await api.delete('/logout');
     jwtService.destroyToken();
+    dispatch(redirectToRoute(PagePath.Login));
   },
 );
 

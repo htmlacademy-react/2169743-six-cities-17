@@ -4,9 +4,13 @@ import classNames from 'classnames';
 import type { TOffer } from '@/entities/Offer/types';
 import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 import OfferCardList from '@/entities/Offer/components/offer-card-list/offer-card-list';
-import { getUserFavorites } from '@/entities/User/model/user.selector';
+import { getUserAuthStatus, getUserFavorites } from '@/entities/User/model/user.selector';
 
 function FavoritesPage() {
+  const userAuthStatus = useAppSelector(getUserAuthStatus);
+  console.log('userAuthStatus', userAuthStatus);
+
+
   const favoriteOffers = useAppSelector(getUserFavorites);
   const groupedOffers = groupBy(favoriteOffers, ({ city }: TOffer) => city.name);
   const normalizeOffers = Object.entries(groupedOffers);

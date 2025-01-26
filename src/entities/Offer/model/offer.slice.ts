@@ -4,6 +4,7 @@ import { StoreSlice } from '@/shared/constants/store-slice';
 import setupOfferDetailState from '../utils/setup-offer-detail-state';
 import { fetchOfferDetailAction, fetchOffersAction, fetchOffersNearbyAction } from './offer.api';
 import { fetchCommentsByOfferIdAction } from '@/entities/Comment/model/comment.api';
+import { logoutUserAction } from '@/entities/User/model/user.api';
 
 export type TOfferState = {
   offers: TOfferArray;
@@ -89,6 +90,16 @@ export const offerSlice = createSlice({
         state.detail = setupOfferDetailState();
         state.isDetailDataLoading = false;
         state.isDetailError = true;
+      })
+      .addCase(logoutUserAction.fulfilled, (state) => {
+        if (state.detail.data !== null) {
+          state.detail.data.isFavorite = false;
+        }
+      })
+      .addCase(logoutUserAction.rejected, (state) => {
+        if (state.detail.data !== null) {
+          state.detail.data.isFavorite = false;
+        }
       })
       .addCase(fetchCommentsByOfferIdAction.fulfilled, (state, action) => {
         state.detail.comments = action.payload;

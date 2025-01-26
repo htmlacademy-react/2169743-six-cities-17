@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { StoreSlice } from '@/shared/constants/store-slice';
-import { CITY_FILTER_DEFAULT } from '@/shared/constants/cities';
+import { CITY_FILTER_DEFAULT } from '@/widgets/locations/constants/cities';
 
 export type TCitiesState = {
   cityFilter: string;

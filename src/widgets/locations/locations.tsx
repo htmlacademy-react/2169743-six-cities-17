@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import LocationButton from '@/features/location-button/location-button';
-import { CITIES } from '@/shared/constants/cities';
+import { CITIES } from './constants/cities';
 
 type LocationsProps = {
   currentCity: string;

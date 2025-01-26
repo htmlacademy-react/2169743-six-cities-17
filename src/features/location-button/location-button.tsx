@@ -16,8 +16,8 @@ function LocationButtonTemplate({ city, isActive }: LocationButtonProps) {
     'tabs__item--active': isActive,
   });
 
-  const handleLocationButtonClick = useCallback((e: FormEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const handleLocationButtonClick = useCallback((evt: FormEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
     dispatch(setCity({ city }));
   }, [city, dispatch]);
 
