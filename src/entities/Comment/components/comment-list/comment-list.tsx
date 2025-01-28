@@ -1,5 +1,5 @@
-import type { TCommentArray } from '../../types';
-import CommentItem from '../comment-item/comment-item';
+import type { TCommentArray } from './../../types';
+import CommentItem from './../comment-item/comment-item';
 
 type CommentListProps = {
   comments: TCommentArray;

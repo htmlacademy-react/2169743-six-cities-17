@@ -5,15 +5,16 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { store } from '@/store';
-
-import App from '@/app/app';
-import { fetchOffersAction } from '@/entities/Offer/model/offer.api';
 import { checkAuthAction, fetchFavoritesOffersAction } from '@/entities/User/model/user.api';
 
-store.dispatch(fetchOffersAction());
-store.dispatch(checkAuthAction()).then(() => {
-  store.dispatch(fetchFavoritesOffersAction());
-});
+import App from '@/app/app';
+
+await store.dispatch(checkAuthAction())
+  .unwrap()
+  .then(() => {
+    store.dispatch(fetchFavoritesOffersAction());
+  })
+  .catch(() => {});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -22,7 +23,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
       <App />
     </React.StrictMode>
   </Provider>,

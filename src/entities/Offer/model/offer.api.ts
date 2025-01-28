@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { AxiosInstance } from 'axios';
 import type { AppDispatch, State } from '@/store/types';
-import type { TOfferArray, TOfferDetail } from '../types';
+import type { TOfferArray, TOfferDetail } from './../types';
 
 export const fetchOffersAction = createAsyncThunk<TOfferArray, undefined, {
   dispatch: AppDispatch;

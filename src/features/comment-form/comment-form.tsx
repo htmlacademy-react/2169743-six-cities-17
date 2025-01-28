@@ -1,41 +1,72 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { Fragment, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
+import { toast } from 'react-toastify';
 import type { CommentPayload } from './types';
-import { useAppDispatch } from '@/shared/hooks/use-app-dispatch';
+
+import { RATINGS } from './constants/ratings';
+
 import type { TOfferDetail } from '@/entities/Offer/types';
-import { fetchCommentsByOfferIdAction, sendCommentAction } from '@/entities/Comment/model/comment.api';
+import { sendCommentAction } from '@/entities/Comment/model/comment.api';
+import { getCommentSendingStatus } from '@/entities/Comment/model/comment.selector';
+
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/use-app-dispatch';
+import { valueMin, valueRange } from '@/shared/utils/validators/value-length';
 
 type CommentFormProps = {
   offerId?: TOfferDetail['id'];
 };
 
+const initialState: CommentPayload = {
+  comment: '',
+  rating: 0,
+};
+
 function CommentForm({ offerId = '' }: CommentFormProps) {
+  const isSendingComment = useAppSelector(getCommentSendingStatus);
   const dispatch = useAppDispatch();
 
-  const [commentModel, setCommentModel] = useState<CommentPayload>({
-    comment: '',
-    rating: 0,
-  });
+  const commentRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleClickRating = (e: ChangeEvent<HTMLInputElement>) => setCommentModel((prev) => ({
+  const [commentModel, setCommentModel] = useState<CommentPayload>(initialState);
+  const handleResetState = () => {
+    setCommentModel(initialState);
+    commentRef.current!.value = '';
+  };
+
+  const isValidForm = useMemo(
+    () => valueRange(commentModel.comment, 50, 300) && valueMin(commentModel.rating, 1),
+    [commentModel],
+  );
+
+  const handleClickRating = (evt: ChangeEvent<HTMLInputElement>) => setCommentModel((prev) => ({
     ...prev,
-    rating: Number(e.target.value),
+    rating: Number(evt.target.value),
   }));
 
-  const handleInputComment = (e: ChangeEvent<HTMLTextAreaElement>) => setCommentModel((prev) => ({
+  const handleInputComment = (evt: ChangeEvent<HTMLTextAreaElement>) => setCommentModel((prev) => ({
     ...prev,
-    comment: e.target.value,
+    comment: evt.target.value,
   }));
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(sendCommentAction({
-      offerId,
-      payload: commentModel,
-    })).then(() => dispatch(fetchCommentsByOfferIdAction(offerId)));
+  const handleSubmitForm = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (isValidForm) {
+      dispatch(sendCommentAction({
+        offerId,
+        payload: commentModel,
+      }))
+        .unwrap()
+        .then(() => {
+          handleResetState();
+        })
+        .catch(() => {});
+    } else {
+      toast.warn('Invalid form data');
+    }
   };
 
   return (
-    <form className="reviews__form form" onSubmit={handleSubmit}>
+    <form className="reviews__form form" onSubmit={handleSubmitForm}>
       <label
         className="reviews__label form__label"
         htmlFor="review"
@@ -44,47 +75,34 @@ function CommentForm({ offerId = '' }: CommentFormProps) {
       </label>
 
       <div className="reviews__rating-form form__rating">
-        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" onChange={handleClickRating} />
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" onChange={handleClickRating} />
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" onChange={handleClickRating} />
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" onChange={handleClickRating} />
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" onChange={handleClickRating} />
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+        {Object.entries(RATINGS).map(([id, title]) => (
+          <Fragment key={id}>
+            <input
+              disabled={isSendingComment}
+              checked={commentModel.rating === Number(id)}
+              className="form__rating-input visually-hidden"
+              name="rating"
+              value={id}
+              id={`${id}-stars`}
+              type="radio"
+              onChange={handleClickRating}
+            />
+            <label htmlFor={`${id}-stars`} className="reviews__rating-label form__rating-label" title={title}>
+              <svg className="form__star-image" width="37" height="33">
+                <use xlinkHref="#icon-star"></use>
+              </svg>
+            </label>
+          </Fragment>
+        ))}
       </div>
 
       <textarea
-        className="reviews__textarea form__textarea"
+        ref={commentRef}
         id="review"
         name="review"
+        disabled={isSendingComment}
         placeholder="Tell how was your stay, what you like and what can be improved"
+        className="reviews__textarea form__textarea"
         onChange={handleInputComment}
       />
 
@@ -96,6 +114,7 @@ function CommentForm({ offerId = '' }: CommentFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
+          disabled={!isValidForm || isSendingComment}
         >
           Submit
         </button>

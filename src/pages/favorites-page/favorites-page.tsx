@@ -1,10 +1,13 @@
 import { useMemo } from 'react';
 import { groupBy } from 'lodash';
 import classNames from 'classnames';
+
 import type { TOffer } from '@/entities/Offer/types';
-import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 import OfferCardList from '@/entities/Offer/components/offer-card-list/offer-card-list';
+
 import { getUserFavorites } from '@/entities/User/model/user.selector';
+
+import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
 
 function FavoritesPage() {
   const favoriteOffers = useAppSelector(getUserFavorites);

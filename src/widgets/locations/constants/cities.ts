@@ -7,6 +7,4 @@ export const CITIES = [
   'Dusseldorf',
 ] as const;
 
-export type TCity = typeof CITIES[number];
-
 export const CITY_FILTER_DEFAULT = CITIES[0];

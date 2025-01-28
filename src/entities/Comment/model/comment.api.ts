@@ -3,7 +3,7 @@ import type { AxiosInstance } from 'axios';
 import type { TOfferDetail } from '@/entities/Offer/types';
 import type { TCommentParams } from '@/features/comment-form/types';
 import type { AppDispatch, State } from '@/store/types';
-import type { TCommentArray, TComment } from '../types';
+import type { TCommentArray, TComment } from './../types';
 
 export const fetchCommentsByOfferIdAction = createAsyncThunk<TCommentArray, TOfferDetail['id'], {
   dispatch: AppDispatch;

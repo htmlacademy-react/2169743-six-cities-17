@@ -1,5 +1,5 @@
 import type { TOfferArray } from '@/entities/Offer/types';
-import { CITIES } from '@/shared/constants/cities';
+import { CITIES } from '@/widgets/locations/constants/cities';
 
 export const mockOffers: TOfferArray = [
   {

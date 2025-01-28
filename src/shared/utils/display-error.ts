@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify';
-import type { ApiError } from '../types';
+import type { ApiError } from './../types';
 
 function displayError(errorInfo: ApiError) {
-  if ('details' in errorInfo && errorInfo?.details?.length) {
+  if (Object.hasOwnProperty.call(errorInfo, 'details') && errorInfo?.details!.length > 0) {
     errorInfo.details?.forEach((error) => {
       toast.warn(error.messages.join('; '));
     });

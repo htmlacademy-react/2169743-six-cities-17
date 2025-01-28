@@ -1,8 +1,8 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import type { TSortSelectOption } from '../../types';
-import { SORT_SELECT_PARAMS } from '../../constants/sort-select-options';
+import type { TSortSelectOption } from './../../types';
+import { SORT_SELECT_PARAMS } from './../../constants/sort-select-options';
 
 type OfferSortSelectProps = {
   sortValue: TSortSelectOption['id'];
@@ -15,11 +15,11 @@ function OfferSortSelectTemplate({ sortValue, onSelect }: OfferSortSelectProps) 
   const labelRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const handleHide = (e: MouseEvent) => {
+    const handleHide = (evt: MouseEvent) => {
       if (
-        e.target instanceof HTMLElement &&
+        evt.target instanceof HTMLElement &&
         labelRef.current &&
-        !labelRef.current.contains(e.target)
+        !labelRef.current.contains(evt.target)
       ) {
         setIsOpen(false);
       }

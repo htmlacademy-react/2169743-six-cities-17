@@ -1,5 +1,5 @@
 import type { Nullish, TOption } from '@/shared/types';
-import type { TCommentArray } from '../Comment/types';
+import type { TCommentArray } from './../Comment/types';
 
 type TOfferType = 'apartment' | 'room' | 'house' | 'hotel';
 
@@ -22,7 +22,7 @@ export type TOffer = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  previewImage: string;
+  previewImage?: string;
 };
 
 export type TOfferArray = Array<TOffer>;

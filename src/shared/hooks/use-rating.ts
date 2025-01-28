@@ -1,4 +1,5 @@
-import { MAX_RATING, MIN_RATING } from '@/shared/constants/rating';
+const MIN_RATING = 0;
+const MAX_RATING = 5;
 
 function useRating(value: number = 0) {
   const normalizeRating = () => {

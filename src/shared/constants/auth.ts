@@ -1,7 +1,7 @@
-export const AUTH_STATUS = {
-  unknown: 'unknown',
-  auth: 'auth',
-  unauth: 'unauth',
+export const AuthStatus = {
+  Unknown: 'unknown',
+  Auth: 'auth',
+  Unauth: 'unauth',
 } as const;
 
-export type TAuthStatus = typeof AUTH_STATUS[keyof typeof AUTH_STATUS];
+export type TAuthStatus = typeof AuthStatus[keyof typeof AuthStatus];

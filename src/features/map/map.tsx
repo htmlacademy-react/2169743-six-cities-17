@@ -5,8 +5,8 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '@/features/map/hooks/use-map';
 import type { City, Point, Points } from '@/features/map/types';
 
-const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
-const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+import URL_MARKER_DEFAULT from '/img/pin.svg';
+import URL_MARKER_CURRENT from '/img/pin-active.svg';
 
 type MapProps = {
   city: City;
@@ -51,7 +51,7 @@ function Map({
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.title === selectedPoint.title
+            selectedPoint !== undefined && point.id === selectedPoint.id
               ? currentCustomIcon
               : defaultCustomIcon,
           )

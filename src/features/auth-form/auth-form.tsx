@@ -1,8 +1,10 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { toast } from 'react-toastify';
 import type { AuthPayload } from './types';
 import { useAppDispatch } from '@/shared/hooks/use-app-dispatch';
 import { fetchFavoritesOffersAction, loginUserAction } from '@/entities/User/model/user.api';
 import { fetchOffersAction } from '@/entities/Offer/model/offer.api';
+import { valueRegex } from '@/shared/utils/validators/value-regex';
 
 function AuthForm() {
   const dispatch = useAppDispatch();
@@ -12,8 +14,8 @@ function AuthForm() {
     password: '',
   });
 
-  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleChangeInput = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = evt.target;
 
     setAuthData((prev) => ({
       ...prev,
@@ -21,13 +23,20 @@ function AuthForm() {
     }));
   };
 
-  const handleLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(loginUserAction(authData))
-      .then(() => {
-        dispatch(fetchOffersAction());
-        dispatch(fetchFavoritesOffersAction());
-      });
+  const handleLoginSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (valueRegex(authData.email, 'Email') && valueRegex(authData.password, 'Password')) {
+      dispatch(loginUserAction(authData))
+        .unwrap()
+        .then(() => {
+          dispatch(fetchOffersAction());
+          dispatch(fetchFavoritesOffersAction());
+        })
+        .catch(() => {});
+    } else {
+      toast.warn('Invalid form data');
+    }
   };
 
   return (
