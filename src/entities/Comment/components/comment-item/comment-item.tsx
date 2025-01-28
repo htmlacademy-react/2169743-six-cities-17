@@ -1,4 +1,4 @@
-import type { TComment } from '../../types';
+import type { TComment } from './../../types';
 import useRating from '@/shared/hooks/use-rating';
 import normalizeDate from '@/shared/utils/normalize-date';
 

@@ -8,9 +8,11 @@ import useAuth from '@/shared/hooks/use-auth';
 import declOfNum from '@/shared/utils/decl-of-num';
 import sortByDate from '@/shared/utils/sort-by-date';
 import ErrorPage from '@/pages/error-page/error-page';
+import Spinner from '@/shared/components/spinner/spinner';
 
-import { getOfferDetailNearby, getOfferDetailError, getOfferDetail, getOfferDetailComments } from '@/entities/Offer/model/offer.selector';
+import { getOfferDetailNearby, getOfferDetailError, getOfferDetail, getOfferDetailComments, getOfferDetailDataLoading } from '@/entities/Offer/model/offer.selector';
 import { fetchOfferDetailAction, fetchOffersNearbyAction } from '@/entities/Offer/model/offer.api';
+// import { resetOfferDetail } from '@/entities/Offer/model/offer.slice';
 import OfferCardList from '@/entities/Offer/components/offer-card-list/offer-card-list';
 
 import BookmarkButton from '@/features/bookmark-button/bookmark-button';
@@ -20,6 +22,7 @@ import CommentList from '@/entities/Comment/components/comment-list/comment-list
 import { fetchCommentsByOfferIdAction } from '@/entities/Comment/model/comment.api';
 
 import Map from '@/features/map/map';
+import { setSelectedOfferId } from '@/features/map/model/map.slice';
 import { mapPointMapper, mapCityMapper } from '@/features/map/utils/map-point-mapper';
 import useSelectCoord from '@/features/map/hooks/use-select-coord';
 
@@ -27,21 +30,25 @@ function OfferPage() {
   const params = useParams();
   const offerId = params?.id ?? '';
   const isDetailError = useAppSelector(getOfferDetailError);
+  const isDetailDataLoading = useAppSelector(getOfferDetailDataLoading);
   const offersNear = useAppSelector(getOfferDetailNearby);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [params]);
 
-  useEffect(() => {
     dispatch(fetchOfferDetailAction(offerId))
       .unwrap()
       .then(() => {
+        dispatch(setSelectedOfferId(offerId));
         dispatch(fetchOffersNearbyAction(offerId));
         dispatch(fetchCommentsByOfferIdAction(offerId));
       })
       .catch(() => {});
+
+    // return () => {
+    //   dispatch(resetOfferDetail());
+    // };
   }, [dispatch, offerId]);
 
   /** Offer detail */
@@ -58,20 +65,20 @@ function OfferPage() {
   const normalizeMapCity = mapCityMapper(offersNear[0]);
   const normalizeMapPoints = [...normalizeOffersNear.map(mapPointMapper), selectedMapPoint];
 
-  const incomeOffersMap = useMemo(
-    () => {
-      const offers = [...normalizeOffersNear];
+  const incomeOffersMap = useMemo(() => {
+    const offers = [...normalizeOffersNear];
 
-      if (offer !== null) {
-        offers.push(offer);
-      }
+    if (offer !== null) {
+      offers.push(offer);
+    }
 
-      return offers;
-    },
-    [normalizeOffersNear, offer],
-  );
+    return offers;
+  }, [normalizeOffersNear, offer]);
+
+  /** Map data */
   const { selectedCoord, handleMouseEnter, handleMouseLeave } = useSelectCoord(incomeOffersMap, offer?.id);
 
+  /** Labels */
   const offerBedroomLabel = `${offer?.bedrooms} ${declOfNum(offer?.bedrooms, ['Bedroom', 'Bedrooms', 'Bedrooms'])}`;
   const offerMaxAdultsLabel = `Max ${offer?.maxAdults} ${declOfNum(offer?.maxAdults, ['adult', 'adults', 'adults'])}`;
 
@@ -79,7 +86,15 @@ function OfferPage() {
     'offer__avatar-wrapper--pro': offer?.host.isPro,
   });
 
-  if (isDetailError) {
+  if (isDetailDataLoading) {
+    return (
+      <div style={{ position: 'relative', minHeight: '360px' }}>
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (offer === null || isDetailError) {
     return <ErrorPage />;
   }
 

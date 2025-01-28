@@ -9,9 +9,11 @@ import useFilteredOffersByCity from '@/entities/Offer/hooks/use-filtered-offers-
 
 import Map from '@/features/map/map';
 import useCurrentCityCoord from '@/features/map/hooks/use-current-city-coord';
-import CitiesEmpty from './cities-empty';
-import declOfNum from '@/shared/utils/decl-of-num';
 import useSelectCoord from '@/features/map/hooks/use-select-coord';
+
+import CitiesEmpty from './../cities-empty/cities-empty';
+import declOfNum from '@/shared/utils/decl-of-num';
+
 
 type CitiesProps = {
   currentCity: string;
@@ -35,7 +37,7 @@ function Cities({ currentCity }: CitiesProps) {
 
   /** Map data */
   const [cityMap, pointsMap] = useCurrentCityCoord();
-  const { selectedCoord, handleMouseEnter, handleMouseLeave } = useSelectCoord(filteredOffers);
+  const { selectedCoord, handleMouseEnter, handleMouseLeave } = useSelectCoord(filteredOffers, '');
 
   return (
     <div className="cities" style={{ height: '100%' }}>

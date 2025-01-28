@@ -17,6 +17,7 @@ function BookmarkButtonTemplate({
   imageSize = { width: 18, height: 19 },
 }: BookmarkButtonProps) {
   const { handleFavoriteClick } = useFavoriteClick();
+
   const buttonClassName = classNames('button', {
     [`${classPrefix}__bookmark-button`]: Boolean(classPrefix),
     [`${classPrefix}__bookmark-button--active`]: Boolean(classPrefix) && isActive,

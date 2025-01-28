@@ -1,9 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { TOffer, TOfferArray, TOfferDetailState } from '../types';
+import type { TOffer, TOfferArray, TOfferDetailState } from './../types';
 import { StoreSlice } from '@/shared/constants/store-slice';
-import setupOfferDetailState from '../utils/setup-offer-detail-state';
+import setupOfferDetailState from './../utils/setup-offer-detail-state';
 import { fetchOfferDetailAction, fetchOffersAction, fetchOffersNearbyAction } from './offer.api';
-import { fetchCommentsByOfferIdAction } from '@/entities/Comment/model/comment.api';
+import { fetchCommentsByOfferIdAction, sendCommentAction } from '@/entities/Comment/model/comment.api';
 import { logoutUserAction } from '@/entities/User/model/user.api';
 
 export type TOfferState = {
@@ -18,8 +18,8 @@ const initialState: TOfferState = {
   offers: [],
   isOffersDataLoading: false,
   detail: setupOfferDetailState(),
-  isDetailDataLoading: false,
-  isDetailError: false,
+  isDetailDataLoading: true,
+  isDetailError: true,
 };
 
 export const offerSlice = createSlice({
@@ -84,6 +84,7 @@ export const offerSlice = createSlice({
       })
       .addCase(fetchOfferDetailAction.fulfilled, (state, action) => {
         state.isDetailDataLoading = false;
+        state.isDetailError = false;
         state.detail.data = action.payload;
       })
       .addCase(fetchOfferDetailAction.rejected, (state) => {
@@ -106,6 +107,9 @@ export const offerSlice = createSlice({
       })
       .addCase(fetchOffersNearbyAction.fulfilled, (state, action) => {
         state.detail.offersNearby = action.payload;
+      })
+      .addCase(sendCommentAction.fulfilled, (state, action) => {
+        state.detail.comments.push(action.payload);
       });
   },
 });
@@ -114,4 +118,5 @@ export const {
   toggleOfferFavorite,
   toggleOfferDetailFavorite,
   toggleOfferNearbyFavorite,
+  resetOfferDetail,
 } = offerSlice.actions;

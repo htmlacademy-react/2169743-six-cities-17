@@ -17,6 +17,7 @@ function Layout() {
   const pageClassName = classNames('page', {
     'page--gray page--main': pathname === PageRoute.Main,
     'page--gray page--login': pathname === PageRoute.Login,
+    'page--favorites-empty': pathname === PageRoute.Favorites && favoriteOffers.length === 0,
   });
 
   const mainClassName = classNames('page__main', {

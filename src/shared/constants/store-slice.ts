@@ -3,4 +3,5 @@ export const enum StoreSlice {
   Offer = 'offer',
   Cities = 'cities',
   Comment = 'comment',
+  Map = 'map',
 }

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAppSelector } from '@/shared/hooks/use-app-dispatch';
-import { getOffers } from '../model/offer.selector';
+import { getOffers } from './../model/offer.selector';
 import { getCityFilter } from '@/widgets/cities/model/cities.selector';
 
 function useFilteredOffersByCity() {

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { AxiosInstance } from 'axios';
 import type { AppDispatch, State } from '@/store/types';
-import type { TOfferToggleParams, TUser } from '../types';
+import type { TOfferToggleParams, TUser } from './../types';
 import type { AuthPayload } from '@/features/auth-form/types';
 import { PagePath } from '@/shared/constants/page-path';
 import jwtService from '@/shared/utils/jwt.service';
@@ -59,7 +59,10 @@ export const fetchFavoritesOffersAction = createAsyncThunk<TOfferArray, undefine
   },
 );
 
-export const toggleOfferStatusAction = createAsyncThunk<TOfferDetail, TOfferToggleParams, {
+export const toggleOfferStatusAction = createAsyncThunk<{
+  data: TOfferDetail;
+  type: number;
+}, TOfferToggleParams, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -67,6 +70,6 @@ export const toggleOfferStatusAction = createAsyncThunk<TOfferDetail, TOfferTogg
   'user/favorites/toggle',
   async (params, { extra: api }) => {
     const { data } = await api.post<TOfferDetail>(`/favorite/${params.offerId}/${params.status}`);
-    return data;
+    return { data, type: params.status };
   },
 );

@@ -1,8 +1,8 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import type { TSortSelectOption } from '../../types';
-import { SORT_SELECT_PARAMS } from '../../constants/sort-select-options';
+import type { TSortSelectOption } from './../../types';
+import { SORT_SELECT_PARAMS } from './../../constants/sort-select-options';
 
 type OfferSortSelectProps = {
   sortValue: TSortSelectOption['id'];

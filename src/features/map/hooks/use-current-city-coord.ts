@@ -1,6 +1,6 @@
 import type { City, Points } from '@/features/map/types';
 import useFilteredOffersByCity from '@/entities/Offer/hooks/use-filtered-offers-by-city';
-import { mapPointMapper, mapCityMapper } from '../utils/map-point-mapper';
+import { mapPointMapper, mapCityMapper } from './../utils/map-point-mapper';
 
 function useCurrentCityCoord(): [City, Points] {
   const filteredOffers = useFilteredOffersByCity();
