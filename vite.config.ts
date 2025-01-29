@@ -8,10 +8,6 @@ import path from 'node:path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  define: {
-    BASE_URL: process.env.VITE_BASE_URL,
-    REQUEST_TIMEOUT: process.env.VITE_REQUEST_TIMEOUT,
-  },
   test: {
     globals: true,
     environment: 'jsdom',

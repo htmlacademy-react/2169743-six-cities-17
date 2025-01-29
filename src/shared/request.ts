@@ -4,6 +4,9 @@ import type { ApiError } from './types';
 import jwtService from './utils/jwt.service';
 import displayError from './utils/display-error';
 
+const BASE_URL = 'https://16.design.htmlacademy.pro/six-cities';
+const REQUEST_TIMEOUT = 5000;
+
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
   [StatusCodes.UNAUTHORIZED]: true,
@@ -14,8 +17,8 @@ const StatusCodeMapping: Record<number, boolean> = {
 const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
 
 const request = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL as string,
-  timeout: import.meta.env.REQUEST_TIMEOUT as number,
+  baseURL: BASE_URL,
+  timeout: REQUEST_TIMEOUT,
 });
 
 request.interceptors.request.use((config) => {
